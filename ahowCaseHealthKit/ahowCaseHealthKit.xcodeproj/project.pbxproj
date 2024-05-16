@@ -14,6 +14,7 @@
 		8E4E0B212BF6502500346820 /* ahowCaseHealthKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B202BF6502500346820 /* ahowCaseHealthKitTests.swift */; };
 		8E4E0B2B2BF6502500346820 /* ahowCaseHealthKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B2A2BF6502500346820 /* ahowCaseHealthKitUITests.swift */; };
 		8E4E0B2D2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B2C2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift */; };
+		8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B392BF6621000346820 /* HealthMetrcContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		8E4E0B262BF6502500346820 /* ahowCaseHealthKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ahowCaseHealthKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E4E0B2A2BF6502500346820 /* ahowCaseHealthKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ahowCaseHealthKitUITests.swift; sourceTree = "<group>"; };
 		8E4E0B2C2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ahowCaseHealthKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8E4E0B392BF6621000346820 /* HealthMetrcContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetrcContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		8E4E0B0E2BF6502400346820 /* ahowCaseHealthKit */ = {
 			isa = PBXGroup;
 			children = (
+				8E4E0B3B2BF6622500346820 /* enum */,
 				8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */,
 				8E4E0B112BF6502400346820 /* ContentView.swift */,
 				8E4E0B132BF6502500346820 /* Assets.xcassets */,
@@ -125,6 +128,14 @@
 				8E4E0B2C2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift */,
 			);
 			path = ahowCaseHealthKitUITests;
+			sourceTree = "<group>";
+		};
+		8E4E0B3B2BF6622500346820 /* enum */ = {
+			isa = PBXGroup;
+			children = (
+				8E4E0B392BF6621000346820 /* HealthMetrcContext.swift */,
+			);
+			path = enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E4E0B122BF6502400346820 /* ContentView.swift in Sources */,
+				8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */,
 				8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
