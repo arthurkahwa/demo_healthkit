@@ -9,13 +9,59 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            ScrollView {
+                VStack (spacing: 16) {
+                    VStack { // Overall chart card
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Label("Steps", systemImage: "figure.walk")
+                                    .font(.title3.bold())
+                                    .foregroundStyle(.pink)
+                                
+                                Text("Avereage 10k Steps")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.bottom, 12)
+                        
+                        RoundedRectangle(cornerRadius: 15)
+                            .foregroundStyle(.secondary)
+                            .frame(height: 160)
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+                    
+                    VStack(alignment: .leading) { // Overall chart card
+                        VStack(alignment: .leading) {
+                            Label("Averages", systemImage: "calendar")
+                                .font(.title3.bold())
+                                .foregroundStyle(.pink)
+                            
+                            Text("last 28 days")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            
+                        }
+                        .padding(.bottom, 12)
+                        
+                        RoundedRectangle(cornerRadius: 15)
+                            .foregroundStyle(.secondary)
+                            .frame(height: 240)
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+                }
+            }
+            .padding()
+            .navigationTitle("Dashboard")
         }
-        .padding()
     }
 }
 
