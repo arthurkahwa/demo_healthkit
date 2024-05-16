@@ -26,7 +26,7 @@ struct DashboardView: View {
                         NavigationLink(value: selectedStat){
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Label("Steps", systemImage: "figure.walk")
+                                    Label(selectedStat.title, systemImage: isSteps ?  "figure.walk" : "scalemass.fill")
                                         .font(.title3.bold())
                                         .foregroundStyle(.pink)
                                     
