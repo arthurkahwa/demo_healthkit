@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  ahowCaseHealthKit
 //
 //  Created by Arthur Nsereko Kahwa on 5/16/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct DashboardView: View {
     @State private var selectedStat: HealthMetrcContext = .steps
     var isSteps: Bool { selectedStat == .steps }
     
@@ -72,7 +72,7 @@ struct ContentView: View {
             .padding()
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetrcContext.self) { metric in
-                Text(metric.title)
+                HealthDetailListView(metric: metric)
             }
         }
         .tint( isSteps ? .pink : .indigo)
@@ -80,5 +80,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    DashboardView()
 }
