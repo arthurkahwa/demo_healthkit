@@ -16,6 +16,7 @@
 		8E4E0B2D2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B2C2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift */; };
 		8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B392BF6621000346820 /* HealthMetrcContext.swift */; };
 		8E4E0B3E2BF6740F00346820 /* HealthDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3D2BF6740F00346820 /* HealthDetailListView.swift */; };
+		8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		8E4E0B2C2BF6502500346820 /* ahowCaseHealthKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ahowCaseHealthKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8E4E0B392BF6621000346820 /* HealthMetrcContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetrcContext.swift; sourceTree = "<group>"; };
 		8E4E0B3D2BF6740F00346820 /* HealthDetailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDetailListView.swift; sourceTree = "<group>"; };
+		8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				8E4E0B112BF6502400346820 /* DashboardView.swift */,
 				8E4E0B3D2BF6740F00346820 /* HealthDetailListView.swift */,
+				8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				8E4E0B3E2BF6740F00346820 /* HealthDetailListView.swift in Sources */,
 				8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */,
 				8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */,
+				8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
