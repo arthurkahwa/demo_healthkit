@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @Environment(HealthKitManager.self) private var hkManager
     @AppStorage("HasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HealthMetrcContext = .steps
@@ -76,6 +77,9 @@ struct DashboardView: View {
             .onAppear(perform: {
                 isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
             })
+//            .task {
+//                await hkManager.addSimulatorData()
+//            }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetrcContext.self) { metric in
                 HealthDetailListView(metric: metric)
