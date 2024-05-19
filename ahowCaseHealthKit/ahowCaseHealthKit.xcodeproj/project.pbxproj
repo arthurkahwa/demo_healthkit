@@ -18,6 +18,7 @@
 		8E4E0B3E2BF6740F00346820 /* HealthDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3D2BF6740F00346820 /* HealthDetailListView.swift */; };
 		8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */; };
 		8E4E0B442BF8FDC500346820 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B432BF8FDC500346820 /* HealthKitManager.swift */; };
+		8E9B71FA2BFA445200492D82 /* HealthMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B71F92BFA445200492D82 /* HealthMetric.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 		8E4E0B412BF8F87400346820 /* ahowCaseHealthKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ahowCaseHealthKit.entitlements; sourceTree = "<group>"; };
 		8E4E0B432BF8FDC500346820 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		8E9B71F92BFA445200492D82 /* HealthMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetric.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				8E4E0B422BF8FD4D00346820 /* managers */,
 				8E4E0B152BF6502500346820 /* Preview Content */,
 				8E4E0B3C2BF673C100346820 /* views */,
+				8E9B71F92BFA445200492D82 /* HealthMetric.swift */,
 			);
 			path = ahowCaseHealthKit;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */,
 				8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */,
 				8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */,
+				8E9B71FA2BFA445200492D82 /* HealthMetric.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

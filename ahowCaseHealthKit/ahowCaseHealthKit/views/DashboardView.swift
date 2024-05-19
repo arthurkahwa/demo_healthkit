@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct DashboardView: View {
     @Environment(HealthKitManager.self) private var hkManager
@@ -45,9 +46,13 @@ struct DashboardView: View {
                         .foregroundStyle(.secondary)
                         .padding(.bottom, 12)
                         
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(.secondary)
-                            .frame(height: 160)
+                        Chart {
+                            ForEach(hkManager.stepDate) { steps in
+                                BarMark(x: .value("Date", steps.date, unit: .day),
+                                        y: .value("Steps", steps.value))
+                            }
+                        }
+                        .frame(height: 150)
                     }
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
@@ -78,6 +83,7 @@ struct DashboardView: View {
                 isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
             })
             .task {
+                await hkManager.fetchStepCount()
 //                await hkManager.addSimulatorData()
             }
             .navigationTitle("Dashboard")
