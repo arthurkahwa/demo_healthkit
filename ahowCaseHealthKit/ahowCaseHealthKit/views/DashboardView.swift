@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @AppStorage("HasSeenPermissionPriming") private var hasSeenPermissionPriming = false
+    @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HealthMetrcContext = .steps
     var isSteps: Bool { selectedStat == .steps }
     
@@ -36,7 +38,8 @@ struct DashboardView: View {
                                 
                                 Spacer()
                                 
-                                Image(systemName: "chevron.right")                            }
+                                Image(systemName: "chevron.right")
+                            }
                         }
                         .foregroundStyle(.secondary)
                         .padding(.bottom, 12)
@@ -70,10 +73,18 @@ struct DashboardView: View {
                 }
             }
             .padding()
+            .onAppear(perform: {
+                isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+            })
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetrcContext.self) { metric in
                 HealthDetailListView(metric: metric)
             }
+            .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+                // ToDo fetch health data
+            }, content: {
+                HealthKitPermissionPrimingView(hasSeen: $hasSeenPermissionPriming)
+            })
         }
         .tint( isSteps ? .pink : .indigo)
     }
@@ -81,4 +92,5 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
+        .environment(HealthKitManager())
 }
