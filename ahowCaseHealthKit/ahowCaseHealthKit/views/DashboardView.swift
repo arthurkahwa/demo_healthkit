@@ -79,7 +79,6 @@ struct DashboardView: View {
             })
             .task {
 //                await hkManager.addSimulatorData()
-                await hkManager.fetchStepData()
             }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetrcContext.self) { metric in
