@@ -29,9 +29,17 @@ struct DashboardView: View {
                     }
                     .pickerStyle(.segmented)
                     
-                    StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                    switch selectedStat {
+                    case .steps:
+                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                        
+                    case .weight:
+                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
+                    }
                     
-                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    
+                    
                 }
             }
             .padding()
@@ -40,6 +48,7 @@ struct DashboardView: View {
             })
             .task {
                 await hkManager.fetchStepCount()
+                await hkManager.fetchWeightData()
 //                await hkManager.addSimulatorData()
             }
             .navigationTitle("Dashboard")
