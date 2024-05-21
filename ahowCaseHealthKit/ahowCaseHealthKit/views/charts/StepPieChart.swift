@@ -9,6 +9,8 @@ import SwiftUI
 import Charts
 
 struct StepPieChart: View {
+    var chartData: [WeekDayChartData]
+    
     var body: some View {
         VStack(alignment: .leading) { // Overall chart card
             VStack(alignment: .leading) {
@@ -23,9 +25,18 @@ struct StepPieChart: View {
             }
             .padding(.bottom, 12)
             
-            RoundedRectangle(cornerRadius: 15)
-                .foregroundStyle(.secondary)
-                .frame(height: 240)
+            Chart {
+                ForEach(chartData) { weekday in
+                    SectorMark(angle: .value("Average Steps", weekday.value),
+                               innerRadius: .ratio(0.618),
+//                               outerRadius: <#T##MarkDimension#>,
+                               angularInset: 1)
+                    .foregroundStyle(.pink.gradient)
+                    .cornerRadius(4)
+                }
+            }
+            .frame(height: 240)
+            
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
@@ -33,5 +44,5 @@ struct StepPieChart: View {
 }
 
 #Preview {
-    StepPieChart()
+    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: HealthMetric.mockData))
 }

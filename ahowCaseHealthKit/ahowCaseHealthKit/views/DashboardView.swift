@@ -109,25 +109,7 @@ struct DashboardView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
                     
-                    VStack(alignment: .leading) { // Overall chart card
-                        VStack(alignment: .leading) {
-                            Label("Averages", systemImage: "calendar")
-                                .font(.title3.bold())
-                                .foregroundStyle(.pink)
-                            
-                            Text("last 28 days")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            
-                        }
-                        .padding(.bottom, 12)
-                        
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(.secondary)
-                            .frame(height: 240)
-                    }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
                 }
             }
             .padding()
