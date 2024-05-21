@@ -24,7 +24,6 @@
 		8E9B72022BFB806400492D82 /* ChartDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72012BFB806400492D82 /* ChartDataTypes.swift */; };
 		8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72042BFB81EE00492D82 /* date+extension.swift */; };
 		8E9B720C2BFCC34B00492D82 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */; };
-		8E9B720F2BFCC59200492D82 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 8E9B720E2BFCC59200492D82 /* Algorithms */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E9B720F2BFCC59200492D82 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +224,6 @@
 			);
 			name = ahowCaseHealthKit;
 			packageProductDependencies = (
-				8E9B720E2BFCC59200492D82 /* Algorithms */,
 			);
 			productName = ahowCaseHealthKit;
 			productReference = 8E4E0B0C2BF6502400346820 /* ahowCaseHealthKit.app */;
@@ -301,7 +298,6 @@
 			);
 			mainGroup = 8E4E0B032BF6502400346820;
 			packageReferences = (
-				8E9B720D2BFCC59200492D82 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 8E4E0B0D2BF6502400346820 /* Products */;
 			projectDirPath = "";
@@ -692,25 +688,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		8E9B720D2BFCC59200492D82 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8E9B720E2BFCC59200492D82 /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8E9B720D2BFCC59200492D82 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8E4E0B042BF6502400346820 /* Project object */;
 }
