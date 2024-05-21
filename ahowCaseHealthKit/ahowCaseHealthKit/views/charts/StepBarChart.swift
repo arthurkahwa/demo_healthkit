@@ -81,7 +81,7 @@ struct StepBarChart: View {
             .chartXSelection(value: $rawSelectedDate.animation(.easeIn))
             .chartXAxis {
                 AxisMarks {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                    AxisValueLabel(format: .dateTime.day().month(.defaultDigits))
                 }
             }
             .chartYAxis {
