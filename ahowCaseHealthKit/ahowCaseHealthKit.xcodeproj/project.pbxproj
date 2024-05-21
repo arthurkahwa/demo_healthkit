@@ -24,6 +24,7 @@
 		8E9B72022BFB806400492D82 /* ChartDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72012BFB806400492D82 /* ChartDataTypes.swift */; };
 		8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72042BFB81EE00492D82 /* date+extension.swift */; };
 		8E9B720A2BFB878D00492D82 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 8E9B72092BFB878D00492D82 /* Algorithms */; };
+		8E9B720C2BFCC34B00492D82 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMath.swift; sourceTree = "<group>"; };
 		8E9B72012BFB806400492D82 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		8E9B72042BFB81EE00492D82 /* date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "date+extension.swift"; sourceTree = "<group>"; };
+		8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,17 +117,17 @@
 		8E4E0B0E2BF6502400346820 /* ahowCaseHealthKit */ = {
 			isa = PBXGroup;
 			children = (
-				8E9B72032BFB81C000492D82 /* extensions */,
-				8E9B71FE2BFB7F4A00492D82 /* models */,
 				8E4E0B412BF8F87400346820 /* ahowCaseHealthKit.entitlements */,
 				8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */,
 				8E4E0B132BF6502500346820 /* Assets.xcassets */,
+				8E9B72012BFB806400492D82 /* ChartDataTypes.swift */,
+				8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */,
 				8E4E0B3B2BF6622500346820 /* enum */,
+				8E9B72032BFB81C000492D82 /* extensions */,
 				8E4E0B422BF8FD4D00346820 /* managers */,
+				8E9B71FE2BFB7F4A00492D82 /* models */,
 				8E4E0B152BF6502500346820 /* Preview Content */,
 				8E4E0B3C2BF673C100346820 /* views */,
-				8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */,
-				8E9B72012BFB806400492D82 /* ChartDataTypes.swift */,
 			);
 			path = ahowCaseHealthKit;
 			sourceTree = "<group>";
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				8E9B71FC2BFAB08700492D82 /* StepBarChart.swift */,
+				8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */,
 			);
 			path = charts;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				8E4E0B3A2BF6621000346820 /* HealthMetrcContext.swift in Sources */,
 				8E9B72022BFB806400492D82 /* ChartDataTypes.swift in Sources */,
 				8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */,
+				8E9B720C2BFCC34B00492D82 /* StepPieChart.swift in Sources */,
 				8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */,
 				8E9B71FA2BFA445200492D82 /* HealthMetric.swift in Sources */,
 			);
