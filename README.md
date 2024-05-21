@@ -1,7 +1,5 @@
-Portfolio Project
-=================
-
-# HealthKit, SwiftUI, Charts
+HealthKit, SwiftUI, Charts
+==========================
 
 [Work - In - Progress]
 
