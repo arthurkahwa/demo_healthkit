@@ -15,25 +15,8 @@ struct DashboardView: View {
     
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HealthMetricContext = .steps
-//    @State private var rawSelectedDate: Date?
     
     var isSteps: Bool { selectedStat == .steps }
-    
-//    var averageStepCount: Double {
-//        guard !hkManager.stepData .isEmpty else { return 0 }
-//        
-//        let totalSteps = hkManager.stepData.reduce(0) { $0 + $1.value }
-//        
-//        return totalSteps / Double(hkManager.stepData.count)
-//    }
-//    
-//    var selectedHealthMetric: HealthMetric? {
-//        guard let rawSelectedDate else { return nil }
-//        
-//        return hkManager.stepData.first {
-//            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-//        }
-//    }
     
     var body: some View {
         NavigationStack {
