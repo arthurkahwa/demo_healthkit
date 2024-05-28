@@ -37,9 +37,6 @@ struct DashboardView: View {
                     case .weight:
                         WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
                     }
-                    
-                    
-                    
                 }
             }
             .padding()
@@ -49,6 +46,7 @@ struct DashboardView: View {
             .task {
                 await hkManager.fetchStepCount()
                 await hkManager.fetchWeightData()
+//                ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
 //                await hkManager.addSimulatorData()
             }
             .navigationTitle("Dashboard")
