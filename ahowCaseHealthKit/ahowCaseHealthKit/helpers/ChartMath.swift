@@ -58,6 +58,6 @@ struct ChartMath {
         }
         
         
-        return []
+        return weekDayChartData
     }
 }
