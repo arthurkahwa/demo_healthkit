@@ -28,6 +28,7 @@
 		8E9B72142BFCFC4B00492D82 /* WeightLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72132BFCFC4B00492D82 /* WeightLineChart.swift */; };
 		8E9B72172BFD00A000492D82 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72162BFD00A000492D82 /* MockData.swift */; };
 		8EC7BA3E2C05F16300E1C77A /* WeightDiffBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */; };
+		8EC7BA662C10824800E1C77A /* StepTrackerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC7BA652C10824800E1C77A /* StepTrackerError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		8E9B72132BFCFC4B00492D82 /* WeightLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightLineChart.swift; sourceTree = "<group>"; };
 		8E9B72162BFD00A000492D82 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightDiffBarChart.swift; sourceTree = "<group>"; };
+		8EC7BA652C10824800E1C77A /* StepTrackerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTrackerError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8E4E0B392BF6621000346820 /* HealthMetricContext.swift */,
+				8EC7BA652C10824800E1C77A /* StepTrackerError.swift */,
 			);
 			path = enum;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				8E9B72002BFB7FD400492D82 /* ChartMath.swift in Sources */,
 				8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */,
 				8E9B71FD2BFAB08700492D82 /* StepBarChart.swift in Sources */,
+				8EC7BA662C10824800E1C77A /* StepTrackerError.swift in Sources */,
 				8E4E0B122BF6502400346820 /* DashboardView.swift in Sources */,
 				8E4E0B3E2BF6740F00346820 /* HealthDetailListView.swift in Sources */,
 				8E9B72172BFD00A000492D82 /* MockData.swift in Sources */,
