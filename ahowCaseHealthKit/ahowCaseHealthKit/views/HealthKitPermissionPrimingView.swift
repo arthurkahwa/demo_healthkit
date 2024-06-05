@@ -14,8 +14,6 @@ struct HealthKitPermissionPrimingView: View {
     
     @State private var isShowingHealthKitPermissions = false
     
-    @Binding var hasSeen: Bool
-    
     let description = """
 This AApp displays your step and weight data in interactive charts."
 You can also add new data to apple health from this app.te and
@@ -47,7 +45,6 @@ Your data is private and secured.
         }
         .padding(32)
         .interactiveDismissDisabled()
-        .onAppear(perform: { hasSeen = true })
         .healthDataAccessRequest(store: hkmanager.store,
                                  shareTypes: hkmanager.types,
                                  readTypes: hkmanager.types,
@@ -65,6 +62,6 @@ Your data is private and secured.
 }
 
 #Preview {
-    HealthKitPermissionPrimingView(hasSeen: .constant(true))
+    HealthKitPermissionPrimingView()
         .environment(HealthKitManager())
 }
