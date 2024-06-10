@@ -5,4 +5,4 @@ Portfolio Project
 
 [Work - In - Progress]
 
-![Dashboard screen shot](images/dashboard-001.gif)
+![Dashboard screen shot](images/hk-dashboard-002.gif)

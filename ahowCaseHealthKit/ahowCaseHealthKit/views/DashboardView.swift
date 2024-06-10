@@ -45,8 +45,8 @@ struct DashboardView: View {
                     try await hkManager.fetchWeightData()
                     try await hkManager.fetchWeightDataForDifferencials()
                     
-    //                ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
-    //                await hkManager.addSimulatorData()
+//                    ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
+//                    await hkManager.addSimulatorData()
                 }
                 catch StepTrackerError.authNotDetermined {
                     isShowingPermissionPrimingSheet = true
