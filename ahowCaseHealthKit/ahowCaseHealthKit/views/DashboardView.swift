@@ -11,8 +11,6 @@ import Charts
 struct DashboardView: View {
     @Environment(HealthKitManager.self) private var hkManager
     
-    @AppStorage("HasSeenPermissionPriming") private var hasSeenPermissionPriming = false
-    
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HealthMetricContext = .steps
     
@@ -36,29 +34,38 @@ struct DashboardView: View {
                         
                     case .weight:
                         WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
+                        WeightDiffBarChart(chartData: ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData))
                     }
-                    
-                    
-                    
                 }
             }
             .padding()
-            .onAppear(perform: {
-                isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
-            })
             .task {
-                await hkManager.fetchStepCount()
-                await hkManager.fetchWeightData()
-//                await hkManager.addSimulatorData()
+                do {
+                    try await hkManager.fetchStepCount()
+                    try await hkManager.fetchWeightData()
+                    try await hkManager.fetchWeightDataForDifferencials()
+                    
+//                    ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
+//                    await hkManager.addSimulatorData()
+                }
+                catch StepTrackerError.authNotDetermined {
+                    isShowingPermissionPrimingSheet = true
+                }
+                catch StepTrackerError.noData {
+                    print("❌ no data found")
+                }
+                catch {
+                    print("❌ unable to complete request: \(error)")
+                }
             }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in
-                HealthDetailListView(metric: metric)
+                HealthDetailListView(isShowingPermissionPriming: $isShowingPermissionPrimingSheet, metric: metric)
             }
             .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
                 // ToDo fetch health data
             }, content: {
-                HealthKitPermissionPrimingView(hasSeen: $hasSeenPermissionPriming)
+                HealthKitPermissionPrimingView()
             })
         }
         .tint( isSteps ? .pink : .indigo)
