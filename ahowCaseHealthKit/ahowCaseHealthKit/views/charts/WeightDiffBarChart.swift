@@ -50,7 +50,6 @@ struct WeightDiffBarChart: View {
                         }
                 }
                 
-                
                 ForEach(chartData) { weightDiff in
                     BarMark(x: .value("Date", weightDiff.date, unit: .day),
                             y: .value("Steps", weightDiff.value)
