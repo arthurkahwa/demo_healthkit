@@ -18,12 +18,18 @@ struct HealthDetailListView: View {
     
     var metric: HealthMetricContext
     
+    var listData: [HealthMetric] {
+        metric == .steps ? hkManager.stepData : hkManager.weightData
+    }
+    
     var body: some View {
-        List(0..<28) { identifiable in
+        List(listData.reversed()) { data in
             HStack {
-                Text(Date(), format: .dateTime.day().month().year())
+                Text(data.date, format: .dateTime.day().month().year())
                 
-                Text(10000, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+                Spacer()
+                
+                Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
             }
         }
         .navigationTitle(metric.title)
@@ -35,10 +41,10 @@ struct HealthDetailListView: View {
                 Task {
                     if metric == .steps {
                         do {
-                            try await hkManager.addStepData(for: addDataDate,
-                                                            value: Double(valueToAdd) ?? 0)
+//                            await hkManager.addData(for: addDataDate,
+//                                                            stepValue: Double(valueToAdd))
                             try await hkManager.fetchStepCount()
-                            isShowingAddData = false
+                            isShowingAddData = true
                         }
                         catch StepTrackerError.authNotDetermined {
                             isShowingPermissionPriming = true
@@ -51,11 +57,11 @@ struct HealthDetailListView: View {
                         }                    }
                     else {
                         do {
-                            try await hkManager.addWeightData(for: addDataDate,
-                                                              value: Double(valueToAdd) ?? 0)
+//                            try await hkManager.addWeightData(for: addDataDate,
+//                                                              value: Double(valueToAdd) ?? 0)
                             try await hkManager.fetchWeightData()
                             try await hkManager.fetchWeightDataForDifferencials()
-                            isShowingAddData = false
+                            isShowingAddData = true
                         }
                         catch StepTrackerError.authNotDetermined {
                             isShowingPermissionPriming = true
@@ -92,7 +98,21 @@ struct HealthDetailListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
-                        //                        <#code#>
+                        Task {
+                            if metric == .steps {
+                                await hkManager.addData(for: addDataDate, stepValue: Double(valueToAdd)!)
+                                
+                                try! await hkManager.fetchStepCount()
+                            }
+                            else {
+                                await hkManager.addData(for: addDataDate, weightValue: Double(valueToAdd)!)
+                                
+                                try! await hkManager.fetchWeightData()
+                                try! await hkManager.fetchWeightDataForDifferencials()
+                            }
+                            
+                            isShowingAddData = false
+                        }
                     }
                 }
                 
