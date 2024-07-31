@@ -1,8 +1,6 @@
 Demonstrating HealthKit
 ========================
 
-# HealthKit, SwiftUI, Charts
-
 Resources used:
 * HealthKit
 * SwiftUI
