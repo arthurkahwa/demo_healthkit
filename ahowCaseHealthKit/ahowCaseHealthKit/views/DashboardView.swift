@@ -13,6 +13,8 @@ struct DashboardView: View {
     
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HealthMetricContext = .steps
+    @State private var isShowingAlert = false
+    @State private var fetchError: StepTrackerError = .noData
     
     var isSteps: Bool { selectedStat == .steps }
     
@@ -52,10 +54,14 @@ struct DashboardView: View {
                     isShowingPermissionPrimingSheet = true
                 }
                 catch StepTrackerError.noData {
-                    print("❌ no data found")
+                    fetchError = .noData
+                    
+                    isShowingAlert = true
                 }
                 catch {
-                    print("❌ unable to complete request: \(error)")
+                    fetchError = .unableToCompleteRequest
+
+                    isShowingAlert = true
                 }
             }
             .navigationTitle("Dashboard")
@@ -67,6 +73,12 @@ struct DashboardView: View {
             }, content: {
                 HealthKitPermissionPrimingView()
             })
+            .alert(isPresented: $isShowingAlert, error: fetchError) { fetchError in
+                // Action buttons
+            } message: { fetchError in
+                Text(fetchError.failureReason)
+            }
+
         }
         .tint( isSteps ? .pink : .indigo)
     }

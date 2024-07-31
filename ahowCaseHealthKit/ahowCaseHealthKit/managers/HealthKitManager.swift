@@ -160,7 +160,7 @@ class HealthKitManager {
         
         let weightQuantity = HKQuantity(unit: .pound(), doubleValue: value)
         
-        let weightSample = HKQuantitySample(type: HKQuantityType(.stepCount),
+        let weightSample = HKQuantitySample(type: HKQuantityType(.bodyMass),
                                           quantity: weightQuantity,
                                           start: date,
                                           end: date)
@@ -171,6 +171,20 @@ class HealthKitManager {
         catch {
             throw StepTrackerError.unableToCompleteRequest
         }
+    }
+    
+    func addData(for date: Date, stepValue: Double) async {
+        let stepQuantity = HKQuantity(unit: .count(), doubleValue: stepValue)
+        let stepSample = HKQuantitySample(type: HKQuantityType(.stepCount), quantity: stepQuantity, start: date, end: date)
+        
+        try! await store.save(stepSample)
+    }
+    
+    func addData(for date: Date, weightValue: Double) async {
+        let weightQuantity = HKQuantity(unit: .pound(), doubleValue: weightValue)
+        let weightSample = HKQuantitySample(type: HKQuantityType(.bodyMass), quantity: weightQuantity, start: date, end: date)
+        
+        try! await store.save(weightSample)
     }
     
     func addSimulatorData() async {

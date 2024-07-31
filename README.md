@@ -1,8 +1,11 @@
-Portfolio Project
-=================
+Demonstrating HealthKit
+========================
 
 # HealthKit, SwiftUI, Charts
 
-[Work - In - Progress]
+Resources used:
+* HealthKit
+* SwiftUI
+* Swift Charts
 
-![Dashboard screen shot](images/hk-dashboard-002.gif)
+![Dashboard](images/hk-dashboard-002.gif)

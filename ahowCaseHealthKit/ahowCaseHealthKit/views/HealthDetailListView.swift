@@ -18,12 +18,18 @@ struct HealthDetailListView: View {
     
     var metric: HealthMetricContext
     
+    var listData: [HealthMetric] {
+        metric == .steps ? hkManager.stepData : hkManager.weightData
+    }
+    
     var body: some View {
-        List(0..<28) { identifiable in
+        List(listData.reversed()) { data in
             HStack {
-                Text(Date(), format: .dateTime.day().month().year())
+                Text(data.date, format: .dateTime.day().month().year())
                 
-                Text(10000, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+                Spacer()
+                
+                Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
             }
         }
         .navigationTitle(metric.title)
@@ -32,42 +38,7 @@ struct HealthDetailListView: View {
         }
         .toolbar {
             Button("Add Data", systemImage: "plus") {
-                Task {
-                    if metric == .steps {
-                        do {
-                            try await hkManager.addStepData(for: addDataDate,
-                                                            value: Double(valueToAdd) ?? 0)
-                            try await hkManager.fetchStepCount()
-                            isShowingAddData = false
-                        }
-                        catch StepTrackerError.authNotDetermined {
-                            isShowingPermissionPriming = true
-                        }
-                        catch StepTrackerError.sharingDenied(let quantityType) {
-                            print("❌ sharing denied for \(quantityType)")
-                        }
-                        catch {
-                            print("❌ data view unable to complete request.")
-                        }                    }
-                    else {
-                        do {
-                            try await hkManager.addWeightData(for: addDataDate,
-                                                              value: Double(valueToAdd) ?? 0)
-                            try await hkManager.fetchWeightData()
-                            try await hkManager.fetchWeightDataForDifferencials()
-                            isShowingAddData = false
-                        }
-                        catch StepTrackerError.authNotDetermined {
-                            isShowingPermissionPriming = true
-                        }
-                        catch StepTrackerError.sharingDenied(let quantityType) {
-                            print("❌ sharing denied for \(quantityType)")
-                        }
-                        catch {
-                            print("❌ data view unable to complete request.")
-                        } 
-                    }
-                }
+                isShowingAddData = true
             }
         }
     }
@@ -92,7 +63,46 @@ struct HealthDetailListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
-                        //                        <#code#>
+                        Task {
+                            if metric == .steps {
+                                do {
+                                    try await hkManager.addStepData(for: addDataDate,
+                                                                value: Double(valueToAdd)!)
+                                    
+                                    try await hkManager.fetchStepCount()
+                                }
+                                catch StepTrackerError.authNotDetermined {
+                                    isShowingPermissionPriming = true
+                                }
+                                catch StepTrackerError.sharingDenied(let quantityType) {
+                                    print("❌ sharing denied for \(quantityType)")
+                                }
+                                catch {
+                                    print("❌ data view unable to complete request.")
+                                }
+                            }
+                            else {
+                                do {
+                                    try await hkManager.addWeightData(for: addDataDate,
+                                                                  value: Double(valueToAdd)!)
+                                    
+                                    try await hkManager.fetchWeightData()
+                                    try await hkManager.fetchWeightDataForDifferencials()
+                                }
+                                catch StepTrackerError.authNotDetermined {
+                                    isShowingPermissionPriming = true
+                                }
+                                catch StepTrackerError.sharingDenied(let quantityType) {
+                                    print("❌ sharing denied for \(quantityType)")
+                                }
+                                catch {
+                                    print("❌ data view unable to complete request.")
+                                }
+
+                            }
+                            
+                            isShowingAddData = false
+                        }
                     }
                 }
                 
