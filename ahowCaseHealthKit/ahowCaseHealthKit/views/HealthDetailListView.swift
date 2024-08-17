@@ -10,9 +10,11 @@ import SwiftUI
 struct HealthDetailListView: View {
     @Environment(HealthKitManager.self) private var hkManager
     
-    @State private var isShowingAddData: Bool = false
+    @State private var isShowingAddData = false
+    @State private var isShowingAlert = false
     @State private var addDataDate: Date = .now
-    @State private var valueToAdd: String = ""
+    @State private var writeError: StepTrackerError = .noData
+    @State private var valueToAdd = ""
     
     @Binding var isShowingPermissionPriming: Bool
     
@@ -60,6 +62,20 @@ struct HealthDetailListView: View {
                 }
             }
             .navigationTitle(metric.title)
+            .alert(isPresented: $isShowingAlert, error: writeError, actions: { writeError in
+                switch writeError {
+                case .authNotDetermined, .noData, .unableToCompleteRequest :
+                    EmptyView()
+                case .sharingDenied(let quantityType):
+                    Button("Settings") {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    
+                    Button("Cancel", role: .cancel) {}
+                }
+            }, message: { writeError in
+                Text(writeError.failureReason)
+            })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
@@ -72,13 +88,16 @@ struct HealthDetailListView: View {
                                     try await hkManager.fetchStepCount()
                                 }
                                 catch StepTrackerError.authNotDetermined {
+                                    writeError = .authNotDetermined
                                     isShowingPermissionPriming = true
                                 }
                                 catch StepTrackerError.sharingDenied(let quantityType) {
-                                    print("❌ sharing denied for \(quantityType)")
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
                                 }
                                 catch {
-                                    print("❌ data view unable to complete request.")
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
                                 }
                             }
                             else {
@@ -90,15 +109,17 @@ struct HealthDetailListView: View {
                                     try await hkManager.fetchWeightDataForDifferencials()
                                 }
                                 catch StepTrackerError.authNotDetermined {
+                                    writeError = .authNotDetermined
                                     isShowingPermissionPriming = true
                                 }
                                 catch StepTrackerError.sharingDenied(let quantityType) {
-                                    print("❌ sharing denied for \(quantityType)")
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
                                 }
                                 catch {
-                                    print("❌ data view unable to complete request.")
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
                                 }
-
                             }
                             
                             isShowingAddData = false

@@ -1,0 +1,159 @@
+@startuml
+' STYLE START
+hide empty members
+skinparam shadowing false
+' STYLE END
+set namespaceSeparator none
+
+
+class "ahowCaseHealthKitUITests" as ahowCaseHealthKitUITests << (C, DarkSeaGreen) >> { 
+  ~setUpWithError()
+  ~tearDownWithError()
+  ~testExample()
+  ~testLaunchPerformance() 
+}
+class "ahowCaseHealthKitUITestsLaunchTests" as ahowCaseHealthKitUITestsLaunchTests << (C, DarkSeaGreen) >> { 
+  ~setUpWithError()
+  ~testLaunch() 
+}
+class "ahowCaseHealthKitTests" as ahowCaseHealthKitTests << (C, DarkSeaGreen) >> { 
+  ~setUpWithError()
+  ~tearDownWithError()
+  ~testExample()
+  ~testPerformanceExample() 
+}
+class "ahowCaseHealthKitApp" as ahowCaseHealthKitApp << (S, SkyBlue) struct >> { 
+  ~hkManager
+  ~body : some Scene 
+}
+class "HealthMetricContext" as HealthMetricContext << (E, LightSteelBlue) enum >> { 
+  ~id : Self
+  ~steps
+  ~weight
+  ~title : String 
+}
+class "StepTrackerError" as StepTrackerError << (E, LightSteelBlue) enum >> { 
+  ~authNotDetermined
+  ~sharingDenied(quantityType:)
+  ~noData
+  ~unableToCompleteRequest
+  ~errorDescription : String?
+  ~failureReason : String 
+}
+class "HealthKitManager" as HealthKitManager << (C, DarkSeaGreen) >> { 
+  ~store
+  ~stepData : [HealthMetric]
+  ~weightData : [HealthMetric]
+  ~weightDiffData : [HealthMetric]
+  ~types : Set
+  ~fetchStepCount()
+  ~fetchWeightData()
+  ~fetchWeightDataForDifferencials()
+  ~addStepData(for:value:)
+  ~addWeightData(for:value:)
+  ~addData(for:stepValue:)
+  ~addData(for:weightValue:)
+  ~addSimulatorData() 
+}
+class "HealthMetric" as HealthMetric << (S, SkyBlue) struct >> { 
+  ~id
+  ~date : Date
+  ~value : Double 
+}
+class "DashboardView" as DashboardView << (S, SkyBlue) struct >> { 
+  -hkManager
+  -isShowingPermissionPrimingSheet
+  -selectedStat : HealthMetricContext
+  -isShowingAlert
+  -fetchError : StepTrackerError
+  ~isSteps : Bool
+  ~body : some View 
+}
+class "WeightDiffBarChart" as WeightDiffBarChart << (S, SkyBlue) struct >> { 
+  ~chartData : [WeekDayChartData]
+  -rawSelectedDate : Date?
+  ~selectedData : WeekDayChartData?
+  ~body : some View
+  ~annotationView : some View 
+}
+class "StepPieChart" as StepPieChart << (S, SkyBlue) struct >> { 
+  ~chartData : [WeekDayChartData]
+  -rawSelectedChartValue : Double?
+  ~selectedWeekDay : WeekDayChartData?
+  ~body : some View 
+}
+class "StepBarChart" as StepBarChart << (S, SkyBlue) struct >> { 
+  ~selectedStat : HealthMetricContext
+  ~chartData : [HealthMetric]
+  -rawSelectedDate : Date?
+  ~isSteps : Bool
+  ~averageStepCount : Double
+  ~selectedHealthMetric : HealthMetric?
+  ~body : some View
+  ~annotationView : some View 
+}
+class "WeightLineChart" as WeightLineChart << (S, SkyBlue) struct >> { 
+  ~selectedStat : HealthMetricContext
+  ~chartData : [HealthMetric]
+  -rawSelectedDate : Date?
+  ~isSteps : Bool
+  ~minChartDataValue : Double
+  ~selectedHealthMetric : HealthMetric?
+  ~body : some View
+  ~annotationView : some View 
+}
+class "HealthDetailListView" as HealthDetailListView << (S, SkyBlue) struct >> { 
+  -hkManager
+  -isShowingAddData : Bool
+  -addDataDate : Date
+  -valueToAdd : String
+  ~isShowingPermissionPriming : Bool
+  ~metric : HealthMetricContext
+  ~listData : [HealthMetric]
+  ~body : some View
+  ~addDataView : some View 
+}
+class "HealthKitPermissionPrimingView" as HealthKitPermissionPrimingView << (S, SkyBlue) struct >> { 
+  -dismiss
+  -hkmanager
+  -isShowingHealthKitPermissions
+  ~description
+  ~body : some View 
+}
+class "WeekDayChartData" as WeekDayChartData << (S, SkyBlue) struct >> { 
+  ~id
+  ~date : Date
+  ~value : Double 
+}
+class "ChartMath" as ChartMath << (S, SkyBlue) struct >> { 
+  ~{static} averageWeekdayCount(for:)
+  ~{static} averageDailyWeightDifferences(for:) 
+}
+class "MockData" as MockData << (S, SkyBlue) struct >> { 
+  ~{static} steps : [HealthMetric]
+  ~{static} weight : [HealthMetric]
+  ~{static} weightDiffs : [WeekDayChartData] 
+}
+class "Date" as Date << (X, Orchid) extension >> { 
+  ~weekDayInt : Int
+  ~weekdayTitle : String 
+}
+XCTestCase <|-- ahowCaseHealthKitUITests : inherits
+XCTestCase <|-- ahowCaseHealthKitUITestsLaunchTests : inherits
+XCTestCase <|-- ahowCaseHealthKitTests : inherits
+App <|-- ahowCaseHealthKitApp : inherits
+CaseIterable -- HealthMetricContext : inherits
+Identifiable -- HealthMetricContext : inherits
+LocalizedError -- StepTrackerError : inherits
+Identifiable <|-- HealthMetric : inherits
+View <|-- DashboardView : inherits
+View <|-- WeightDiffBarChart : inherits
+View <|-- StepPieChart : inherits
+View <|-- StepBarChart : inherits
+View <|-- WeightLineChart : inherits
+View <|-- HealthDetailListView : inherits
+View <|-- HealthKitPermissionPrimingView : inherits
+Identifiable <|-- WeekDayChartData : inherits
+
+@enduml
+
