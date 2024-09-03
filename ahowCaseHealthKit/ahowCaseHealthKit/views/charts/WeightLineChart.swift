@@ -13,6 +13,7 @@ struct WeightLineChart: View {
     var chartData: [HealthMetric]
     
     @State private var rawSelectedDate: Date?
+    @State private var selectedDay: Date?
     
     var isSteps: Bool { selectedStat == .steps }
     
@@ -49,55 +50,68 @@ struct WeightLineChart: View {
             .foregroundStyle(.secondary)
             .padding(.bottom, 12)
             
-            Chart {
-                if let selectedHealthMetric {
-                    RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
-                        .foregroundStyle(Color.secondary.opacity(0.4))
-                        .offset(y: -12)
-                        .annotation(position: .top,
-                                    spacing: 0,
-                                    overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                            annotationView
-                        }
-                }
-                
-                RuleMark(y: .value("Goal", 162))
-                    .foregroundStyle(.mint)
-                    .lineStyle(.init(lineWidth: 1, dash: [4]))
-                
-                ForEach(chartData) { weight in
-                    AreaMark(x: .value("Date", weight.date, unit: .day),
-                             yStart: .value("Value", weight.value),
-                             yEnd: .value("Min Value", minChartDataValue))
-                    .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
-                    
-                    LineMark(x: .value("Date", weight.date, unit: .day),
-                             y: .value("Value", weight.value)
-                    )
-                    .foregroundStyle(.indigo)
-                    .symbol(.circle)
-                }
-                .interpolationMethod(.catmullRom)
+            if chartData.isEmpty {
+               ChartEmptyView(systemImageName: "chart.line.downtrend.xyaxis",
+                              title: "No Data",
+                              description: "There is no weight data available at this time.")
             }
-            .frame(height: 150)
-            .chartXSelection(value: $rawSelectedDate)
-            .chartYScale(domain: .automatic(includesZero: false))
-            .chartXAxis {
-                AxisMarks {
-                    AxisValueLabel(format: .dateTime.day().month(.defaultDigits))
-                }
-            }
-            .chartYAxis {
-                AxisMarks { value in
-                    AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.4))
+            else {
+                Chart {
+                    if let selectedHealthMetric {
+                        RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
+                            .foregroundStyle(Color.secondary.opacity(0.4))
+                            .offset(y: -12)
+                            .annotation(position: .top,
+                                        spacing: 0,
+                                        overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
+                                annotationView
+                            }
+                    }
                     
-                    AxisValueLabel()
+                    RuleMark(y: .value("Goal", 162))
+                        .foregroundStyle(.mint)
+                        .lineStyle(.init(lineWidth: 1, dash: [4]))
+                    
+                    ForEach(chartData) { weight in
+                        AreaMark(x: .value("Date", weight.date, unit: .day),
+                                 yStart: .value("Value", weight.value),
+                                 yEnd: .value("Min Value", minChartDataValue))
+                        .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
+                        
+                        LineMark(x: .value("Date", weight.date, unit: .day),
+                                 y: .value("Value", weight.value)
+                        )
+                        .foregroundStyle(.indigo)
+                        .symbol(.circle)
+                    }
+                    .interpolationMethod(.catmullRom)
+                }
+                .frame(height: 150)
+                .chartXSelection(value: $rawSelectedDate)
+                .chartYScale(domain: .automatic(includesZero: false))
+                .chartXAxis {
+                    AxisMarks {
+                        AxisValueLabel(format: .dateTime.day().month(.defaultDigits))
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks { value in
+                        AxisGridLine()
+                            .foregroundStyle(Color.secondary.opacity(0.4))
+                        
+                        AxisValueLabel()
+                    }
                 }
             }
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+        .sensoryFeedback(.selection, trigger: selectedDay)
+        .onChange(of: rawSelectedDate) { oldValue, newValue in
+            if oldValue?.weekDayInt != newValue?.weekDayInt {
+                selectedDay = newValue
+            }
+        }
     }
     
     var annotationView: some View {
@@ -120,5 +134,8 @@ struct WeightLineChart: View {
 }
 
 #Preview {
-    WeightLineChart(selectedStat: .weight, chartData: MockData.weight)
+    VStack {
+        WeightLineChart(selectedStat: .weight, chartData: MockData.weight)
+        WeightLineChart(selectedStat: .weight, chartData: [])
+    }
 }

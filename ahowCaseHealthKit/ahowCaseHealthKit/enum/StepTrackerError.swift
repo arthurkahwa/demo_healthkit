@@ -12,6 +12,7 @@ enum StepTrackerError: LocalizedError {
     case sharingDenied(quantityType: String)
     case noData
     case unableToCompleteRequest
+    case invalidValue
     
     var errorDescription: String? {
         switch self {
@@ -23,6 +24,8 @@ enum StepTrackerError: LocalizedError {
             "No data available"
         case .unableToCompleteRequest:
             "Unable to complete request"
+        case .invalidValue:
+            "Invalid value"
         }
     }
     
@@ -36,6 +39,8 @@ enum StepTrackerError: LocalizedError {
             "No data for this health tatistic"
         case .unableToCompleteRequest:
             "Cannot complete request. Try again later."
+        case .invalidValue:
+            "Must be a numeric value with a maximum of 1 decimal place"
         }
     }
 }

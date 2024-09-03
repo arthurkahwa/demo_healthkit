@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E2E97DA2C877B2800DFE0C8 /* ChartEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */; };
 		8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */; };
 		8E4E0B122BF6502400346820 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B112BF6502400346820 /* DashboardView.swift */; };
 		8E4E0B142BF6502500346820 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E4E0B132BF6502500346820 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEmptyView.swift; sourceTree = "<group>"; };
 		8E4E0B0C2BF6502400346820 /* ahowCaseHealthKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ahowCaseHealthKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ahowCaseHealthKitApp.swift; sourceTree = "<group>"; };
 		8E4E0B112BF6502400346820 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */,
 				8E9B72132BFCFC4B00492D82 /* WeightLineChart.swift */,
 				8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */,
+				8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */,
 			);
 			path = charts;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 			files = (
 				8E9B72002BFB7FD400492D82 /* ChartMath.swift in Sources */,
 				8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */,
+				8E2E97DA2C877B2800DFE0C8 /* ChartEmptyView.swift in Sources */,
 				8E9B71FD2BFAB08700492D82 /* StepBarChart.swift in Sources */,
 				8EC7BA662C10824800E1C77A /* StepTrackerError.swift in Sources */,
 				8E4E0B122BF6502400346820 /* DashboardView.swift in Sources */,

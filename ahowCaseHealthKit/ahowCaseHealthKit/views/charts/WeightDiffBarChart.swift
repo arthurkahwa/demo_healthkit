@@ -12,6 +12,7 @@ struct WeightDiffBarChart: View {
     var chartData: [WeekDayChartData]
     
     @State private var rawSelectedDate: Date?
+    @State private var selectedDay: Date?
     
     var selectedData: WeekDayChartData? {
         guard let rawSelectedDate else { return nil }
@@ -38,42 +39,55 @@ struct WeightDiffBarChart: View {
             .foregroundStyle(.secondary)
             .padding(.bottom, 12)
             
-            Chart {
-                if let selectedData {
-                    RuleMark(x: .value("Selected Data", selectedData.date, unit: .day))
-                        .foregroundStyle(Color.secondary.opacity(0.4))
-                        .offset(y: -12)
-                        .annotation(position: .top,
-                                    spacing: 0,
-                                    overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                            annotationView
-                        }
-                }
-                
-                ForEach(chartData) { weightDiff in
-                    BarMark(x: .value("Date", weightDiff.date, unit: .day),
-                            y: .value("Steps", weightDiff.value)
-                    )
-                    .foregroundStyle(weightDiff.value >= 0 ? Color.indigo.gradient : Color.mint.gradient)                }
+            if chartData.isEmpty {
+               ChartEmptyView(systemImageName: "chart.bar",
+                              title: "No Data",
+                              description: "There is no weight data available at this time.")
             }
-            .frame(height: 150)
-            .chartXSelection(value: $rawSelectedDate.animation(.easeIn))
-            .chartXAxis {
-                AxisMarks(values: .stride(by: .day)) {
-                    AxisValueLabel(format: .dateTime.weekday(), centered: true)
-                }
-            }
-            .chartYAxis {
-                AxisMarks { value in
-                    AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.4))
+            else {
+                Chart {
+                    if let selectedData {
+                        RuleMark(x: .value("Selected Data", selectedData.date, unit: .day))
+                            .foregroundStyle(Color.secondary.opacity(0.4))
+                            .offset(y: -12)
+                            .annotation(position: .top,
+                                        spacing: 0,
+                                        overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
+                                annotationView
+                            }
+                    }
                     
-                    AxisValueLabel()
+                    ForEach(chartData) { weightDiff in
+                        BarMark(x: .value("Date", weightDiff.date, unit: .day),
+                                y: .value("Steps", weightDiff.value)
+                        )
+                        .foregroundStyle(weightDiff.value >= 0 ? Color.indigo.gradient : Color.mint.gradient)                }
+                }
+                .frame(height: 150)
+                .chartXSelection(value: $rawSelectedDate.animation(.easeIn))
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: .day)) {
+                        AxisValueLabel(format: .dateTime.weekday(), centered: true)
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks { value in
+                        AxisGridLine()
+                            .foregroundStyle(Color.secondary.opacity(0.4))
+                        
+                        AxisValueLabel()
+                    }
                 }
             }
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+        .sensoryFeedback(.selection, trigger: selectedDay)
+        .onChange(of: rawSelectedDate) { oldValue, newValue in
+            if oldValue?.weekDayInt != newValue?.weekDayInt {
+                selectedDay = newValue
+            }
+        }
     }
     
     var annotationView: some View {
@@ -96,5 +110,8 @@ struct WeightDiffBarChart: View {
 }
 
 #Preview {
-    WeightDiffBarChart(chartData: MockData.weightDiffs)
+    VStack {
+        WeightDiffBarChart(chartData: MockData.weightDiffs)
+        WeightDiffBarChart(chartData: [])
+    }
 }
