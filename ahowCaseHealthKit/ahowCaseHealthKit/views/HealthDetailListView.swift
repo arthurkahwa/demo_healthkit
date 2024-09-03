@@ -64,7 +64,10 @@ struct HealthDetailListView: View {
             .navigationTitle(metric.title)
             .alert(isPresented: $isShowingAlert, error: writeError, actions: { writeError in
                 switch writeError {
-                case .authNotDetermined, .noData, .unableToCompleteRequest :
+                case .authNotDetermined, 
+                        .noData,
+                        .unableToCompleteRequest,
+                        .invalidValue :
                     EmptyView()
                 case .sharingDenied(let quantityType):
                     Button("Settings") {
@@ -79,11 +82,20 @@ struct HealthDetailListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
+                        
+                        guard let value = Double(valueToAdd)
+                        else {
+                            writeError = .invalidValue
+                            isShowingAlert = true
+                            
+                            return
+                        }
+                        
                         Task {
                             if metric == .steps {
                                 do {
                                     try await hkManager.addStepData(for: addDataDate,
-                                                                value: Double(valueToAdd)!)
+                                                                    value: value)
                                     
                                     try await hkManager.fetchStepCount()
                                 }
@@ -103,7 +115,7 @@ struct HealthDetailListView: View {
                             else {
                                 do {
                                     try await hkManager.addWeightData(for: addDataDate,
-                                                                  value: Double(valueToAdd)!)
+                                                                      value: value)
                                     
                                     try await hkManager.fetchWeightData()
                                     try await hkManager.fetchWeightDataForDifferencials()
