@@ -30,26 +30,11 @@ struct WeightLineChart: View {
     }
     
     var body: some View {
-        VStack { // Overall chart card
-            NavigationLink(value: selectedStat){
-                HStack {
-                    VStack(alignment: .leading) {
-                        Label(selectedStat.title, systemImage: isSteps ?  "figure.walk" : "scalemass.fill")
-                            .font(.title3.bold())
-                            .foregroundStyle(.indigo)
-                        
-                        Text("Avereage Weight")
-                            .font(.caption)
-                    }
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                }
-            }
-            .foregroundStyle(.secondary)
-            .padding(.bottom, 12)
-            
+        ChartContainer(title: "Avereage Weight",
+                       symbol: "scalemass.fill",
+                       subTitle: "Avereage Weight",
+                       context: .weight,
+                       isNavigation: true) {
             if chartData.isEmpty {
                ChartEmptyView(systemImageName: "chart.line.downtrend.xyaxis",
                               title: "No Data",
@@ -104,8 +89,6 @@ struct WeightLineChart: View {
                 }
             }
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
         .sensoryFeedback(.selection, trigger: selectedDay)
         .onChange(of: rawSelectedDate) { oldValue, newValue in
             if oldValue?.weekDayInt != newValue?.weekDayInt {
