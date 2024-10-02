@@ -9,24 +9,17 @@ import SwiftUI
 import Charts
 
 struct WeightLineChart: View {
-    var selectedStat: HealthMetricContext
-    var chartData: [HealthMetric]
+    var chartData: [DateValueChartData]
     
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
-    
-    var isSteps: Bool { selectedStat == .steps }
-    
+        
     var minChartDataValue: Double {
         chartData.map { $0.value }.min() ?? 0
     }
     
-    var selectedHealthMetric: HealthMetric? {
-        guard let rawSelectedDate else { return nil }
-        
-        return chartData.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-        }
+    var selectedData: DateValueChartData? {
+        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)
     }
     
     var body: some View {
@@ -42,14 +35,14 @@ struct WeightLineChart: View {
             }
             else {
                 Chart {
-                    if let selectedHealthMetric {
-                        RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
+                    if let selectedData {
+                        RuleMark(x: .value("Selected Metric", selectedData.date, unit: .day))
                             .foregroundStyle(Color.secondary.opacity(0.4))
                             .offset(y: -12)
                             .annotation(position: .top,
                                         spacing: 0,
                                         overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                                annotationView
+                                ChartAnnotationView(data: selectedData, context: .weight)
                             }
                     }
                     
@@ -96,29 +89,11 @@ struct WeightLineChart: View {
             }
         }
     }
-    
-    var annotationView: some View {
-        VStack(alignment: .leading) {
-            Text(selectedHealthMetric?.date ?? .now, format: .dateTime.weekday(.abbreviated).day().month(.abbreviated))
-                .font(.footnote.bold())
-                .foregroundStyle(.secondary)
-            
-            Text(selectedHealthMetric?.value ?? 0, format: .number.precision(.fractionLength(1)))
-                .fontWeight(.heavy)
-                .foregroundStyle(.indigo)
-        }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color(.secondarySystemBackground))
-                .shadow(color: .secondary.opacity(0.3), radius: 2, x: 2, y: 2)
-        )
-    }
 }
 
 #Preview {
     VStack {
-        WeightLineChart(selectedStat: .weight, chartData: MockData.weight)
-        WeightLineChart(selectedStat: .weight, chartData: [])
+        WeightLineChart(chartData: ChartHelper.convert(data: MockData.weight))
+        WeightLineChart(chartData: [])
     }
 }

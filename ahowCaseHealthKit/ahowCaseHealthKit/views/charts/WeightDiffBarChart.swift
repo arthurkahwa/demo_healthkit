@@ -9,17 +9,13 @@ import SwiftUI
 import Charts
 
 struct WeightDiffBarChart: View {
-    var chartData: [WeekDayChartData]
+    var chartData: [DateValueChartData]
     
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
     
-    var selectedData: WeekDayChartData? {
-        guard let rawSelectedDate else { return nil }
-        
-        return chartData.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-        }
+    var selectedData: DateValueChartData? {
+        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)
     }
     
     var body: some View {
@@ -42,7 +38,7 @@ struct WeightDiffBarChart: View {
                             .annotation(position: .top,
                                         spacing: 0,
                                         overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                                annotationView
+                                ChartAnnotationView(data: selectedData, context: .weight)
                             }
                     }
                     
@@ -75,24 +71,6 @@ struct WeightDiffBarChart: View {
                 selectedDay = newValue
             }
         }
-    }
-    
-    var annotationView: some View {
-        VStack(alignment: .leading) {
-            Text(selectedData?.date ?? .now, format: .dateTime.weekday(.abbreviated).day().month(.abbreviated))
-                .font(.footnote.bold())
-                .foregroundStyle(.secondary)
-            
-            Text(selectedData?.value ?? 0, format: .number.precision(.fractionLength(2)))
-                .fontWeight(.heavy)
-                .foregroundStyle((selectedData?.value ?? 0) >= 0 ? .indigo : .mint)
-        }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color(.secondarySystemBackground))
-                .shadow(color: .secondary.opacity(0.3), radius: 2, x: 2, y: 2)
-        )
     }
 }
 

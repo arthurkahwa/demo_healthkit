@@ -9,34 +9,19 @@ import SwiftUI
 import Charts
 
 struct StepBarChart: View {
-    var selectedStat: HealthMetricContext
-    var chartData: [HealthMetric]
+    var chartData: [DateValueChartData]
+    
+    var selectedData: DateValueChartData? {
+        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)
+    }
     
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
-    
-    var isSteps: Bool { selectedStat == .steps }
-    
-    var averageStepCount: Double {
-        guard !chartData .isEmpty else { return 0 }
         
-        let totalSteps = chartData.reduce(0) { $0 + $1.value }
-        
-        return totalSteps / Double(chartData.count)
-    }
-    
-    var selectedHealthMetric: HealthMetric? {
-        guard let rawSelectedDate else { return nil }
-        
-        return chartData.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-        }
-    }
-    
     var body: some View {
         ChartContainer(title: "Steps",
                        symbol: "figure.walk",
-                       subTitle: "Avereage \(Int(averageStepCount)) Steps",
+                       subTitle: "Avereage \(Int(ChartHelper.average(for: chartData))) Steps",
                        context: .steps,
                        isNavigation: true) {
             
@@ -47,18 +32,18 @@ struct StepBarChart: View {
             }
             else {
                 Chart {
-                    if let selectedHealthMetric {
-                        RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
+                    if let selectedData {
+                        RuleMark(x: .value("Selected Metric", selectedData.date, unit: .day))
                             .foregroundStyle(Color.secondary.opacity(0.4))
                             .offset(y: -12)
                             .annotation(position: .top,
                                         spacing: 0,
                                         overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                                annotationView
+                                ChartAnnotationView(data: selectedData, context: .steps)
                             }
                     }
                     
-                    RuleMark(y: .value("Average", averageStepCount))
+                    RuleMark(y: .value("Average", ChartHelper.average(for: chartData)))
                         .foregroundStyle(Color.secondary)
                         .lineStyle(.init(lineWidth: 1, dash: [4]))
                     
@@ -67,7 +52,7 @@ struct StepBarChart: View {
                                 y: .value("Steps", steps.value)
                         )
                         .foregroundStyle(Color.pink.gradient)
-                        .opacity(rawSelectedDate == nil || steps.date == selectedHealthMetric?.date ? 1.0 : 0.4)
+                        .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1.0 : 0.4)
                     }
                 }
                 .frame(height: 150)
@@ -94,29 +79,11 @@ struct StepBarChart: View {
             }
         }
     }
-    
-    var annotationView: some View {
-        VStack(alignment: .leading) {
-            Text(selectedHealthMetric?.date ?? .now, format: .dateTime.weekday(.abbreviated).day().month(.abbreviated))
-                .font(.footnote.bold())
-                .foregroundStyle(.secondary)
-            
-            Text(selectedHealthMetric?.value ?? 0, format: .number.precision(.fractionLength(0)))
-                .fontWeight(.heavy)
-                .foregroundStyle(.pink)
-        }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color(.secondarySystemBackground))
-                .shadow(color: .secondary.opacity(0.3), radius: 2, x: 2, y: 2)
-        )
-    }
 }
 
 #Preview {
     VStack {
-        StepBarChart(selectedStat: .steps, chartData: MockData.steps)
-        StepBarChart(selectedStat: .steps, chartData: [])
+        StepBarChart(chartData: ChartHelper.convert(data: MockData.steps))
+        StepBarChart(chartData: [])
     }
 }
