@@ -27,12 +27,7 @@ struct WeightLineChart: View {
     }
     
     var body: some View {
-        ChartContainer(title: "Avereage Weight",
-                       symbol: "scalemass.fill",
-                       subTitle: "Avereage Weight",
-                       context: .weight,
-                       isNavigation: true) {
-            
+        ChartContainer(chartType: .weightLine(average: averageWeight)) {
             Chart {
                 if let selectedData {
                     RuleMark(x: .value("Selected Metric", selectedData.date, unit: .day))

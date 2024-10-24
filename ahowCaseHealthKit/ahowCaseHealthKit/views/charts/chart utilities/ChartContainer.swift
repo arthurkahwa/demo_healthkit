@@ -7,14 +7,22 @@
 
 import SwiftUI
 
+enum ChartType {
+    case stepBar(average: Int)
+    case stepWeeklyPie
+    case weightLine(average: Double)
+    case weightDiffBar
+}
+
 struct ChartContainer<Content: View>: View {
     
-    let title: String
-    let symbol: String
-    let subTitle: String
-    let context: HealthMetricContext
-    let isNavigation: Bool
+//    let title: String
+//    let symbol: String
+//    let subTitle: String
+//    let context: HealthMetricContext
+//    let isNavigation: Bool
     
+    let chartType: ChartType
     @ViewBuilder var content: () -> Content
     
     var body: some View {
@@ -32,6 +40,61 @@ struct ChartContainer<Content: View>: View {
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+    }
+    
+    var isNavigation: Bool {
+        switch chartType{
+        case .stepBar(_), .weightLine(_):
+            return true
+        case .stepWeeklyPie, .weightDiffBar:
+            return false
+        }
+    }
+    
+    var context: HealthMetricContext {
+        switch chartType {
+        case .stepBar(_), .stepWeeklyPie:
+            return .steps
+        case .weightLine(_), .weightDiffBar:
+            return .weight
+        }
+    }
+    
+    var title: String {
+        switch chartType {
+        case .stepBar(_):
+            "Steps"
+        case .stepWeeklyPie:
+            "Average"
+        case .weightLine(_):
+            "Weight"
+        case .weightDiffBar:
+            "Average Weight Change"
+        }
+    }
+    
+    var subTitle: String {
+        switch chartType {
+        case .stepBar(average: let average):
+            "Avereage \(average.formatted())) Steps"
+        case .stepWeeklyPie:
+            "last 28 days"
+        case .weightLine(average: let average):
+            "\(average)kg Avereage Weight"
+        case .weightDiffBar:
+            "Avereage for last 28 days"
+        }
+    }
+    
+    var symbol: String {
+        switch chartType {
+        case .stepBar(_):
+            "figure.walk"
+        case .stepWeeklyPie:
+            "calendar"
+        case .weightLine(_), .weightDiffBar:
+            "figure"
+        }
     }
     
     var navigationLinkView: some View {
@@ -61,12 +124,7 @@ struct ChartContainer<Content: View>: View {
 }
 
 #Preview {
-    ChartContainer(title: "Test Title",
-                   symbol: "figure.walk",
-                   subTitle: "Step title",
-                   context: .steps,
-                   isNavigation: true) {
-        
+    ChartContainer(chartType: .stepWeeklyPie) {
         Text("Content goes here")
             .frame(minHeight: 150)
     }

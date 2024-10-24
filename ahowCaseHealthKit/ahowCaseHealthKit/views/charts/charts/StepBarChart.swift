@@ -23,13 +23,7 @@ struct StepBarChart: View {
     }
     
     var body: some View {
-        ChartContainer(title: "Steps",
-                       symbol: "figure.walk",
-                       subTitle: "Avereage \(averageSteps.formatted())) Steps",
-                       context: .steps,
-                       isNavigation: true) {
-            
-            
+        ChartContainer(chartType: .stepBar(average: averageSteps)) {
             Chart {
                 if let selectedData {
                     RuleMark(x: .value("Selected Metric", selectedData.date, unit: .day))
