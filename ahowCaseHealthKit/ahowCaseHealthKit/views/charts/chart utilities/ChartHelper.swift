@@ -1,14 +1,26 @@
 //
-//  ChartMath.swift
+//  ChartHelper.swift
 //  ahowCaseHealthKit
 //
-//  Created by Arthur Nsereko Kahwa on 5/20/24.
+//  Created by Arthur Nsereko Kahwa on 10/2/24.
 //
 
 import Foundation
 import Algorithms
 
-struct ChartMath {
+struct ChartHelper {
+    static func convert(data: [HealthMetric]) -> [DateValueChartData] {
+        data.map { .init(date: $0.date, value: $0.value)}
+    }
+    
+    static func parseSelectedData(from data: [DateValueChartData], in selectedDate: Date?) -> DateValueChartData? {
+        guard let selectedDate else { return nil }
+        
+        return data.first {
+            Calendar.current.isDate(selectedDate, inSameDayAs: $0.date)
+        }
+    }
+    
     static func averageWeekdayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
         let sortedByWeekDay = metric.sorted(using: KeyPathComparator(\.date.weekDayInt))
         let weekdayArray = sortedByWeekDay.chunked { $0.date.weekDayInt == $1.date.weekDayInt }
@@ -52,7 +64,6 @@ struct ChartMath {
             
             weekDayChartData.append(.init(date: firstValue.date, value: avereageWeightDiff))
         }
-        
         
         return weekDayChartData
     }

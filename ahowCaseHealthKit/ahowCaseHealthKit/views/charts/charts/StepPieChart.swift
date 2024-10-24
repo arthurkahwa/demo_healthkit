@@ -100,7 +100,7 @@ struct StepPieChart: View {
 
 #Preview {
     VStack {
-        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: MockData.steps))
-        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: []))
+        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: MockData.steps))
+        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: []))
     }
 }
