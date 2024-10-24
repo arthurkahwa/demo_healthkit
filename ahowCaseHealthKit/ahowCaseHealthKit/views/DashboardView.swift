@@ -16,8 +16,6 @@ struct DashboardView: View {
     @State private var isShowingAlert = false
     @State private var fetchError: StepTrackerError = .noData
     
-//    var isSteps: Bool { selectedStat == .steps }
-    
     fileprivate func fetchHealthData() {
         Task {
             do {
@@ -29,12 +27,6 @@ struct DashboardView: View {
                 hkManager.weightData = try await weightsForLineChart
                 hkManager.weightDiffData = try await weightsForDiffBarChart
                 
-                //                    try await hkManager.fetchStepCount()
-                //                    try await hkManager.fetchWeightData()
-                //                    try await hkManager.fetchWeightDataForDifferencials()
-                
-                //                    ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
-                //                    await hkManager.addSimulatorData()
             }
             catch StepTrackerError.authNotDetermined {
                 isShowingPermissionPrimingSheet = true
@@ -80,7 +72,7 @@ struct DashboardView: View {
             .navigationDestination(for: HealthMetricContext.self) { metric in
                 HealthDetailListView(isShowingPermissionPriming: $isShowingPermissionPrimingSheet, metric: metric)
             }
-            .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
                 fetchHealthData()
             }, content: {
                 HealthKitPermissionPrimingView()

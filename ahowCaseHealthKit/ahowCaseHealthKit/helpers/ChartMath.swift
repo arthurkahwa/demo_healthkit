@@ -10,8 +10,7 @@ import Algorithms
 
 struct ChartMath {
     static func averageWeekdayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
-        let sortedByWeekDay = metric.sorted { $0.date.weekDayInt < $1.date.weekDayInt }
-        
+        let sortedByWeekDay = metric.sorted(using: KeyPathComparator(\.date.weekDayInt))
         let weekdayArray = sortedByWeekDay.chunked { $0.date.weekDayInt == $1.date.weekDayInt }
         
         var weekDayChartData: [DateValueChartData] = []
@@ -40,8 +39,7 @@ struct ChartMath {
             diffValues.append((date: date, value: diff))
         }
         
-        let sortedByWeekDay = diffValues.sorted { $0.date.weekDayInt < $1.date.weekDayInt }
-        
+        let sortedByWeekDay = diffValues.sorted(using: KeyPathComparator(\.date.weekDayInt))
         let weekdayArray = sortedByWeekDay.chunked { $0.date.weekDayInt == $1.date.weekDayInt }
         
         var weekDayChartData: [DateValueChartData] = []

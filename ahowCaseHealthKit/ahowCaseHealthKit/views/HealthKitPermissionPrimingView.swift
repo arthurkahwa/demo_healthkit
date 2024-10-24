@@ -44,7 +44,6 @@ Your data is private and secured.
             .tint(.pink)
         }
         .padding(32)
-        .interactiveDismissDisabled()
         .healthDataAccessRequest(store: hkmanager.store,
                                  shareTypes: hkmanager.types,
                                  readTypes: hkmanager.types,

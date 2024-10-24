@@ -26,12 +26,10 @@ struct HealthDetailListView: View {
     
     var body: some View {
         List(listData.reversed()) { data in
-            HStack {
-                Text(data.date, format: .dateTime.day().month().year())
-                
-                Spacer()
-                
+            LabeledContent {
                 Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+            } label: {
+                Text(data.date, format: .dateTime.day().month().year())
             }
         }
         .navigationTitle(metric.title)
@@ -50,11 +48,7 @@ struct HealthDetailListView: View {
             Form {
                 DatePicker("Date", selection: $addDataDate, displayedComponents: .date)
                 
-                HStack {
-                    Text(metric.title)
-                    
-                    Spacer()
-                    
+                LabeledContent(metric.title) {
                     TextField("Vallue", text: $valueToAdd)
                         .multilineTextAlignment(.trailing)
                         .frame(width: 160)
