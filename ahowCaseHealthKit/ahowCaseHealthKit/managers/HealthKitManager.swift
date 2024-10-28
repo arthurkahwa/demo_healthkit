@@ -18,6 +18,8 @@ class HealthKitManager {
     
     let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
     
+    /// Fetch last 28 days of step count data from HealthKit
+    /// - Returns: Array of ``HealthMetric``
     func fetchStepCount() async throws -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.stepCount)) != .notDetermined
         else {
@@ -48,6 +50,9 @@ class HealthKitManager {
         }
     }
     
+    /// Fetch most reent weiht sample on each day for a specified nu,er of days back fron today
+    /// - Parameter daysBack: Days back fromn today
+    /// - Returns: Array of ``HealthMetric``
     func fetchWeightData(daysBack: Int) async throws  -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined
         else {
@@ -116,6 +121,10 @@ class HealthKitManager {
 //        }
 //    }
     
+    /// Add step data to HealthKit. Requires HealthKit write permission.
+    /// - Parameters:
+    ///   - date: date fir ste count valkue
+    ///   - value: step count value
     func addStepData(for date: Date, value: Double) async throws {
         let status = store.authorizationStatus(for: HKQuantityType(.stepCount))
         switch status {
@@ -144,6 +153,10 @@ class HealthKitManager {
         }
     }
     
+    /// Add weight data to HealthKit. Requires HealthKit write permission.
+    /// - Parameters:
+    ///   -  date: date fir weight valkue
+    ///   - value: weight value
     func addWeightData(for date: Date, value: Double) async throws {
         let status = store.authorizationStatus(for: HKQuantityType(.bodyMass))
         switch status {
