@@ -44,19 +44,25 @@ struct WeightLineChart: View {
                     RuleMark(y: .value("Goal", 162))
                         .foregroundStyle(.mint)
                         .lineStyle(.init(lineWidth: 1, dash: [4]))
+                        .accessibilityHidden(true)
                 }
                 
                 ForEach(chartData) { weight in
-                    AreaMark(x: .value("Date", weight.date, unit: .day),
-                             yStart: .value("Value", weight.value),
-                             yEnd: .value("Min Value", minChartDataValue))
-                    .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
-                    
-                    LineMark(x: .value("Date", weight.date, unit: .day),
-                             y: .value("Value", weight.value)
-                    )
-                    .foregroundStyle(.indigo)
-                    .symbol(.circle)
+                    Plot {
+                        AreaMark(x: .value("Date", weight.date, unit: .day),
+                                 yStart: .value("Value", weight.value),
+                                 yEnd: .value("Min Value", minChartDataValue))
+                        .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
+                        
+                        LineMark(x: .value("Date", weight.date, unit: .day),
+                                 y: .value("Value", weight.value)
+                        )
+                        .foregroundStyle(.indigo)
+                        .symbol(.circle)
+                    }
+                    .accessibilityLabel(weight.date.weekdayTitle)
+                    .accessibilityValue("\(weight.value) kilos")
+
                 }
                 .interpolationMethod(.catmullRom)
             }

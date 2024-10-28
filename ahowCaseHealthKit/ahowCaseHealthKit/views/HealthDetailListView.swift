@@ -30,7 +30,9 @@ struct HealthDetailListView: View {
                 Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
             } label: {
                 Text(data.date, format: .dateTime.day().month().year())
+                    .accessibilityLabel(data.date.accessibilityDate)
             }
+            .accessibilityElement(children: .combine)
         }
         .navigationTitle(metric.title)
         .sheet(isPresented: $isShowingAddData) {

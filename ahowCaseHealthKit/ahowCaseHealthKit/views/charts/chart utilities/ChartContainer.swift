@@ -109,6 +109,7 @@ struct ChartContainer<Content: View>: View {
         }
         .foregroundStyle(.secondary)
         .padding(.bottom, 12)
+        .accessibilityHint("Tap for data in list view")
     }
     
     var titleView: some View {
@@ -119,6 +120,23 @@ struct ChartContainer<Content: View>: View {
             
             Text(subTitle)
                 .font(.caption)
+        }
+        .accessibilityAddTraits(.isHeader)
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityElement(children: .ignore)
+    }
+    
+    var accessibilityLabel: String {
+        switch chartType {
+        case .stepBar(average: let average):
+            return "Bar chart, step count, last 28 days, averge steps per day \(average) steps"
+        case .stepWeeklyPie:
+           return  "pie chart, aversge steps per weekday"
+        case .weightLine(average: let average):
+            return "Line chart, weight, average \(average) kilos"
+            
+        case .weightDiffBar:
+            return "Weight difference"
         }
     }
 }
