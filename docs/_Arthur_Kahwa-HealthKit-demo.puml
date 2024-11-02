@@ -1,5 +1,10 @@
 @startuml
+
 ' STYLE START
+skinparam defaultTextAlignment center
+skinparam horizontalAlignment left
+skinparam defaultFontSize 10
+skinparam padding 10
 hide empty members
 skinparam shadowing false
 ' STYLE END
@@ -37,6 +42,7 @@ class "StepTrackerError" as StepTrackerError << (E, LightSteelBlue) enum >> {
   ~sharingDenied(quantityType:)
   ~noData
   ~unableToCompleteRequest
+  ~invalidValue
   ~errorDescription : String?
   ~failureReason : String 
 }
@@ -70,43 +76,68 @@ class "DashboardView" as DashboardView << (S, SkyBlue) struct >> {
   ~body : some View 
 }
 class "WeightDiffBarChart" as WeightDiffBarChart << (S, SkyBlue) struct >> { 
-  ~chartData : [WeekDayChartData]
+  ~chartData : [DateValueChartData]
   -rawSelectedDate : Date?
-  ~selectedData : WeekDayChartData?
-  ~body : some View
-  ~annotationView : some View 
-}
-class "StepPieChart" as StepPieChart << (S, SkyBlue) struct >> { 
-  ~chartData : [WeekDayChartData]
-  -rawSelectedChartValue : Double?
-  ~selectedWeekDay : WeekDayChartData?
+  -selectedDay : Date?
+  ~selectedData : DateValueChartData?
   ~body : some View 
 }
-class "StepBarChart" as StepBarChart << (S, SkyBlue) struct >> { 
-  ~selectedStat : HealthMetricContext
-  ~chartData : [HealthMetric]
-  -rawSelectedDate : Date?
-  ~isSteps : Bool
-  ~averageStepCount : Double
-  ~selectedHealthMetric : HealthMetric?
+class "ChartAnnotationView" as ChartAnnotationView << (S, SkyBlue) struct >> { 
+  ~data : DateValueChartData
+  ~context : HealthMetricContext
+  ~body : some View 
+}
+class "ChartContainer" as ChartContainer<Content: View> << (S, SkyBlue) struct >> { 
+  ~title : String
+  ~symbol : String
+  ~subTitle : String
+  ~context : HealthMetricContext
+  ~isNavigation : Bool
+  ~content : () -> Content
   ~body : some View
-  ~annotationView : some View 
+  ~navigationLinkView : some View
+  ~titleView : some View 
+}
+class "StepPieChart" as StepPieChart << (S, SkyBlue) struct >> { 
+  ~chartData : [DateValueChartData]
+  -rawSelectedChartValue : Double?
+  -selectedDay : Date?
+  ~selectedWeekDay : DateValueChartData?
+  ~body : some View 
+}
+class "ChartHelper" as ChartHelper << (S, SkyBlue) struct >> { 
+  ~{static} convert(data:)
+  ~{static} average(for:)
+  ~{static} parseSelectedData(from:in:) 
+}
+class "StepBarChart" as StepBarChart << (S, SkyBlue) struct >> { 
+  ~chartData : [DateValueChartData]
+  ~selectedData : DateValueChartData?
+  -rawSelectedDate : Date?
+  -selectedDay : Date?
+  ~body : some View 
+}
+class "ChartEmptyView" as ChartEmptyView << (S, SkyBlue) struct >> { 
+  ~systemImageName : String
+  ~title : String
+  ~description : String
+  ~body : some View 
 }
 class "WeightLineChart" as WeightLineChart << (S, SkyBlue) struct >> { 
-  ~selectedStat : HealthMetricContext
-  ~chartData : [HealthMetric]
+  ~chartData : [DateValueChartData]
   -rawSelectedDate : Date?
-  ~isSteps : Bool
+  -selectedDay : Date?
   ~minChartDataValue : Double
-  ~selectedHealthMetric : HealthMetric?
-  ~body : some View
-  ~annotationView : some View 
+  ~selectedData : DateValueChartData?
+  ~body : some View 
 }
 class "HealthDetailListView" as HealthDetailListView << (S, SkyBlue) struct >> { 
   -hkManager
-  -isShowingAddData : Bool
+  -isShowingAddData
+  -isShowingAlert
   -addDataDate : Date
-  -valueToAdd : String
+  -writeError : StepTrackerError
+  -valueToAdd
   ~isShowingPermissionPriming : Bool
   ~metric : HealthMetricContext
   ~listData : [HealthMetric]
@@ -120,7 +151,7 @@ class "HealthKitPermissionPrimingView" as HealthKitPermissionPrimingView << (S, 
   ~description
   ~body : some View 
 }
-class "WeekDayChartData" as WeekDayChartData << (S, SkyBlue) struct >> { 
+class "DateValueChartData" as DateValueChartData << (S, SkyBlue) struct >> { 
   ~id
   ~date : Date
   ~value : Double 
@@ -132,7 +163,7 @@ class "ChartMath" as ChartMath << (S, SkyBlue) struct >> {
 class "MockData" as MockData << (S, SkyBlue) struct >> { 
   ~{static} steps : [HealthMetric]
   ~{static} weight : [HealthMetric]
-  ~{static} weightDiffs : [WeekDayChartData] 
+  ~{static} weightDiffs : [DateValueChartData] 
 }
 class "Date" as Date << (X, Orchid) extension >> { 
   ~weekDayInt : Int
@@ -148,12 +179,16 @@ LocalizedError -- StepTrackerError : inherits
 Identifiable <|-- HealthMetric : inherits
 View <|-- DashboardView : inherits
 View <|-- WeightDiffBarChart : inherits
+View <|-- ChartAnnotationView : inherits
+View <|-- ChartContainer : inherits
 View <|-- StepPieChart : inherits
 View <|-- StepBarChart : inherits
+View <|-- ChartEmptyView : inherits
 View <|-- WeightLineChart : inherits
 View <|-- HealthDetailListView : inherits
 View <|-- HealthKitPermissionPrimingView : inherits
-Identifiable <|-- WeekDayChartData : inherits
+Identifiable <|-- DateValueChartData : inherits
+Equatable <|-- DateValueChartData : inherits
 
 @enduml
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E2E97DA2C877B2800DFE0C8 /* ChartEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */; };
+		8E2E97DC2C88AEDD00DFE0C8 /* ChartContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E97DB2C88AEDD00DFE0C8 /* ChartContainer.swift */; };
 		8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */; };
 		8E4E0B122BF6502400346820 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B112BF6502400346820 /* DashboardView.swift */; };
 		8E4E0B142BF6502500346820 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E4E0B132BF6502500346820 /* Assets.xcassets */; };
@@ -18,9 +20,10 @@
 		8E4E0B3E2BF6740F00346820 /* HealthDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3D2BF6740F00346820 /* HealthDetailListView.swift */; };
 		8E4E0B402BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */; };
 		8E4E0B442BF8FDC500346820 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E0B432BF8FDC500346820 /* HealthKitManager.swift */; };
+		8E7CC4EA2CAD7F340026E39B /* ChartHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CC4E92CAD7F340026E39B /* ChartHelper.swift */; };
+		8E7CC4EC2CAD845A0026E39B /* ChartAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7CC4EB2CAD845A0026E39B /* ChartAnnotationView.swift */; };
 		8E9B71FA2BFA445200492D82 /* HealthMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B71F92BFA445200492D82 /* HealthMetric.swift */; };
 		8E9B71FD2BFAB08700492D82 /* StepBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B71FC2BFAB08700492D82 /* StepBarChart.swift */; };
-		8E9B72002BFB7FD400492D82 /* ChartMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */; };
 		8E9B72022BFB806400492D82 /* ChartDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72012BFB806400492D82 /* ChartDataTypes.swift */; };
 		8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B72042BFB81EE00492D82 /* date+extension.swift */; };
 		8E9B720C2BFCC34B00492D82 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */; };
@@ -29,6 +32,7 @@
 		8EC7BA3E2C05F16300E1C77A /* WeightDiffBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */; };
 		8EC7BA662C10824800E1C77A /* StepTrackerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC7BA652C10824800E1C77A /* StepTrackerError.swift */; };
 		8EC7BA692C10C24600E1C77A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 8EC7BA682C10C24600E1C77A /* Algorithms */; };
+		8ECB383E2CCAB8B700AA9819 /* Array + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB383D2CCAB8B700AA9819 /* Array + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEmptyView.swift; sourceTree = "<group>"; };
+		8E2E97DB2C88AEDD00DFE0C8 /* ChartContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartContainer.swift; sourceTree = "<group>"; };
 		8E4E0B0C2BF6502400346820 /* ahowCaseHealthKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ahowCaseHealthKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E4E0B0F2BF6502400346820 /* ahowCaseHealthKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ahowCaseHealthKitApp.swift; sourceTree = "<group>"; };
 		8E4E0B112BF6502400346820 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -64,9 +70,10 @@
 		8E4E0B3F2BF8EEAC00346820 /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 		8E4E0B412BF8F87400346820 /* ahowCaseHealthKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ahowCaseHealthKit.entitlements; sourceTree = "<group>"; };
 		8E4E0B432BF8FDC500346820 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		8E7CC4E92CAD7F340026E39B /* ChartHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartHelper.swift; sourceTree = "<group>"; };
+		8E7CC4EB2CAD845A0026E39B /* ChartAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartAnnotationView.swift; sourceTree = "<group>"; };
 		8E9B71F92BFA445200492D82 /* HealthMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetric.swift; sourceTree = "<group>"; };
 		8E9B71FC2BFAB08700492D82 /* StepBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepBarChart.swift; sourceTree = "<group>"; };
-		8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMath.swift; sourceTree = "<group>"; };
 		8E9B72012BFB806400492D82 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		8E9B72042BFB81EE00492D82 /* date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "date+extension.swift"; sourceTree = "<group>"; };
 		8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
@@ -74,6 +81,7 @@
 		8E9B72162BFD00A000492D82 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightDiffBarChart.swift; sourceTree = "<group>"; };
 		8EC7BA652C10824800E1C77A /* StepTrackerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTrackerError.swift; sourceTree = "<group>"; };
+		8ECB383D2CCAB8B700AA9819 /* Array + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,10 +203,9 @@
 		8E9B71FB2BFAB06700492D82 /* charts */ = {
 			isa = PBXGroup;
 			children = (
-				8E9B71FC2BFAB08700492D82 /* StepBarChart.swift */,
-				8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */,
-				8E9B72132BFCFC4B00492D82 /* WeightLineChart.swift */,
-				8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */,
+				8ECB383F2CCABFCD00AA9819 /* charts */,
+				8ECB38412CCAC00A00AA9819 /* chart custom views */,
+				8ECB38402CCABFEB00AA9819 /* chart utilities */,
 			);
 			path = charts;
 			sourceTree = "<group>";
@@ -223,10 +230,39 @@
 			isa = PBXGroup;
 			children = (
 				8E9B72012BFB806400492D82 /* ChartDataTypes.swift */,
-				8E9B71FF2BFB7FD400492D82 /* ChartMath.swift */,
 				8E9B72162BFD00A000492D82 /* MockData.swift */,
+				8ECB383D2CCAB8B700AA9819 /* Array + Extension.swift */,
 			);
 			path = helpers;
+			sourceTree = "<group>";
+		};
+		8ECB383F2CCABFCD00AA9819 /* charts */ = {
+			isa = PBXGroup;
+			children = (
+				8E9B71FC2BFAB08700492D82 /* StepBarChart.swift */,
+				8E9B720B2BFCC34B00492D82 /* StepPieChart.swift */,
+				8EC7BA3D2C05F16300E1C77A /* WeightDiffBarChart.swift */,
+				8E9B72132BFCFC4B00492D82 /* WeightLineChart.swift */,
+			);
+			path = charts;
+			sourceTree = "<group>";
+		};
+		8ECB38402CCABFEB00AA9819 /* chart utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8E2E97DB2C88AEDD00DFE0C8 /* ChartContainer.swift */,
+				8E7CC4E92CAD7F340026E39B /* ChartHelper.swift */,
+			);
+			path = "chart utilities";
+			sourceTree = "<group>";
+		};
+		8ECB38412CCAC00A00AA9819 /* chart custom views */ = {
+			isa = PBXGroup;
+			children = (
+				8E7CC4EB2CAD845A0026E39B /* ChartAnnotationView.swift */,
+				8E2E97D92C877B2800DFE0C8 /* ChartEmptyView.swift */,
+			);
+			path = "chart custom views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,8 +401,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E9B72002BFB7FD400492D82 /* ChartMath.swift in Sources */,
 				8E9B72052BFB81EE00492D82 /* date+extension.swift in Sources */,
+				8E2E97DC2C88AEDD00DFE0C8 /* ChartContainer.swift in Sources */,
+				8ECB383E2CCAB8B700AA9819 /* Array + Extension.swift in Sources */,
+				8E2E97DA2C877B2800DFE0C8 /* ChartEmptyView.swift in Sources */,
+				8E7CC4EC2CAD845A0026E39B /* ChartAnnotationView.swift in Sources */,
 				8E9B71FD2BFAB08700492D82 /* StepBarChart.swift in Sources */,
 				8EC7BA662C10824800E1C77A /* StepTrackerError.swift in Sources */,
 				8E4E0B122BF6502400346820 /* DashboardView.swift in Sources */,
@@ -376,6 +415,7 @@
 				8E4E0B3A2BF6621000346820 /* HealthMetricContext.swift in Sources */,
 				8E9B72022BFB806400492D82 /* ChartDataTypes.swift in Sources */,
 				8E9B72142BFCFC4B00492D82 /* WeightLineChart.swift in Sources */,
+				8E7CC4EA2CAD7F340026E39B /* ChartHelper.swift in Sources */,
 				8E4E0B102BF6502400346820 /* ahowCaseHealthKitApp.swift in Sources */,
 				8E9B720C2BFCC34B00492D82 /* StepPieChart.swift in Sources */,
 				8EC7BA3E2C05F16300E1C77A /* WeightDiffBarChart.swift in Sources */,
@@ -555,6 +595,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -587,6 +628,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,7 +651,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7X8WVYDFHZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.chapter.demos.ahowCaseHealthKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -629,7 +671,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7X8WVYDFHZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.chapter.demos.ahowCaseHealthKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -648,6 +690,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7X8WVYDFHZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.chapter.demos.ahowCaseHealthKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -666,6 +709,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7X8WVYDFHZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.chapter.demos.ahowCaseHealthKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

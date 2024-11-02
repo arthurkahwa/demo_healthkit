@@ -9,36 +9,24 @@ import SwiftUI
 import Charts
 
 struct StepPieChart: View {
-    var chartData: [WeekDayChartData]
+    var chartData: [DateValueChartData]
     
     @State private var rawSelectedChartValue: Double? = 0
+    @State private var selectedDay: Date?
+    @State private var lastSelectedValue: Double = 0
     
-    var selectedWeekDay: WeekDayChartData? {
-        guard let rawSelectedChartValue else { return nil }
-        
+    var selectedWeekDay: DateValueChartData? {
         var total = 0.0
         
         return chartData.first {
             total += $0.value
             
-            return rawSelectedChartValue <= total
+            return lastSelectedValue <= total
         }
     }
     
     var body: some View {
-        VStack(alignment: .leading) { // Overall chart card
-            VStack(alignment: .leading) {
-                Label("Averages", systemImage: "calendar")
-                    .font(.title3.bold())
-                    .foregroundStyle(.pink)
-                
-                Text("last 28 days")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                
-            }
-            .padding(.bottom, 12)
-            
+        ChartContainer(chartType: .stepWeeklyPie) {
             Chart {
                 ForEach(chartData) { weekday in
                     SectorMark(angle: .value("Average Steps", weekday.value),
@@ -48,9 +36,23 @@ struct StepPieChart: View {
                     .foregroundStyle(.pink.gradient)
                     .cornerRadius(4)
                     .opacity(selectedWeekDay?.date.weekDayInt == weekday.date.weekDayInt ? 1.0 : 0.4)
+                    .accessibilityLabel(weekday.date.weekdayTitle)
+                    .accessibilityValue("\(Int(weekday.value)) steps")
                 }
             }
-            .chartAngleSelection(value: $rawSelectedChartValue.animation(.easeInOut))
+            .chartAngleSelection(value: $rawSelectedChartValue)
+            .onChange(of: rawSelectedChartValue) { oldValue, newValue in
+                withAnimation(.easeInOut) {
+                    guard let newValue
+                    else {
+                        lastSelectedValue = oldValue ?? 0
+                        
+                        return
+                    }
+                    
+                    lastSelectedValue = newValue
+                }
+            }
             .frame(height: 240)
             .chartBackground { proxy in
                 GeometryReader { geometry in
@@ -61,7 +63,7 @@ struct StepPieChart: View {
                             VStack {
                                 Text(selectedWeekDay.date.weekdayTitle)
                                     .font(.title3.bold())
-                                    .contentTransition(.identity)
+                                    .animation(.none)
                                 
                                 Text(selectedWeekDay.value, format: .number.precision(.fractionLength(0)))
                                     .fontWeight(.medium)
@@ -69,16 +71,33 @@ struct StepPieChart: View {
                                     .contentTransition(.numericText())
                             }
                             .position(x: frame.midX, y: frame.midY)
+                            .accessibilityHidden(true)
                         }
                     }
+                    
+                }
+            }
+            .overlay {
+                if chartData.isEmpty {
+                    ChartEmptyView(systemImageName: "chart.pie",
+                                   title: "No Data",
+                                   description: "There is no step data available at this time.")
                 }
             }
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+       .sensoryFeedback(.selection, trigger: selectedDay)
+       .onChange(of: selectedWeekDay) { oldValue, newValue in
+           guard let oldValue, let newValue else { return }
+           if oldValue.date.weekDayInt != newValue.date.weekDayInt {
+               selectedDay = newValue.date
+           }
+       }
     }
 }
 
 #Preview {
-    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: MockData.steps))
+    VStack {
+        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: MockData.steps))
+        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: []))
+    }
 }

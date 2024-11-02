@@ -18,28 +18,27 @@ class HealthKitManager {
     
     let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
     
-    func fetchStepCount() async throws {
+    /// Fetch last 28 days of step count data from HealthKit
+    /// - Returns: Array of ``HealthMetric``
+    func fetchStepCount() async throws -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.stepCount)) != .notDetermined
         else {
             throw StepTrackerError.authNotDetermined
         }
         
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
+        let interval = createDateInterval(from: .now, to: 28)
         
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.stepCount), predicate: queryPredicate)
         let stepsQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
                                                                options: .cumulativeSum,
-                                                               anchorDate: endDate,
+                                                               anchorDate: interval.end,
                                                                intervalComponents: .init(day: 1))
         
         do {
             let stepCounts = try await stepsQuery.result(for: store)
             
-            stepData = stepCounts.statistics().map {
+            return stepCounts.statistics().map {
                 .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
             }
         }
@@ -51,28 +50,33 @@ class HealthKitManager {
         }
     }
     
-    func fetchWeightData() async throws {
+    /// Fetch most reent weiht sample on each day for a specified nu,er of days back fron today
+    /// - Parameter daysBack: Days back fromn today
+    /// - Returns: Array of ``HealthMetric``
+    func fetchWeightData(daysBack: Int) async throws  -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined
         else {
             throw StepTrackerError.authNotDetermined
         }
         
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
+//        let calendar = Calendar.current
+//        let today = calendar.startOfDay(for: .now)
+//        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
+//        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
         
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+        let interval = createDateInterval(from: .now, to: daysBack)
+        
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.bodyMass), predicate: queryPredicate)
         let weightQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
                                                                options: .mostRecent,
-                                                               anchorDate: endDate,
+                                                                anchorDate: interval.end,
                                                                intervalComponents: .init(day: 1))
         
         do {
             let weights = try await weightQuery.result(for: store)
             
-            weightData = weights.statistics().map {
+            return weights.statistics().map {
                 .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
             }
         }
@@ -84,39 +88,43 @@ class HealthKitManager {
         }
     }
     
-    func fetchWeightDataForDifferencials() async throws {
-        guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined
-        else {
-            throw StepTrackerError.authNotDetermined
-        }
-        
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -29, to: endDate)
-        
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
-        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.bodyMass), predicate: queryPredicate)
-        let weightQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
-                                                               options: .mostRecent,
-                                                               anchorDate: endDate,
-                                                               intervalComponents: .init(day: 1))
-        
-        do {
-            let weights = try await weightQuery.result(for: store)
-            
-            weightDiffData = weights.statistics().map {
-                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
-            }
-        }
-        catch HKError.errorNoData {
-            throw StepTrackerError.noData
-        }
-        catch {
-            throw StepTrackerError.unableToCompleteRequest
-        }
-    }
+//    func fetchWeightDataForDifferencials() async throws {
+//        guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined
+//        else {
+//            throw StepTrackerError.authNotDetermined
+//        }
+//        
+//        let calendar = Calendar.current
+//        let today = calendar.startOfDay(for: .now)
+//        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
+//        let startDate = calendar.date(byAdding: .day, value: -29, to: endDate)
+//        
+//        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+//        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.bodyMass), predicate: queryPredicate)
+//        let weightQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
+//                                                               options: .mostRecent,
+//                                                               anchorDate: endDate,
+//                                                               intervalComponents: .init(day: 1))
+//        
+//        do {
+//            let weights = try await weightQuery.result(for: store)
+//            
+//            weightDiffData = weights.statistics().map {
+//                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
+//            }
+//        }
+//        catch HKError.errorNoData {
+//            throw StepTrackerError.noData
+//        }
+//        catch {
+//            throw StepTrackerError.unableToCompleteRequest
+//        }
+//    }
     
+    /// Add step data to HealthKit. Requires HealthKit write permission.
+    /// - Parameters:
+    ///   - date: date fir ste count valkue
+    ///   - value: step count value
     func addStepData(for date: Date, value: Double) async throws {
         let status = store.authorizationStatus(for: HKQuantityType(.stepCount))
         switch status {
@@ -145,6 +153,10 @@ class HealthKitManager {
         }
     }
     
+    /// Add weight data to HealthKit. Requires HealthKit write permission.
+    /// - Parameters:
+    ///   -  date: date fir weight valkue
+    ///   - value: weight value
     func addWeightData(for date: Date, value: Double) async throws {
         let status = store.authorizationStatus(for: HKQuantityType(.bodyMass))
         switch status {
@@ -207,5 +219,15 @@ class HealthKitManager {
         try! await store.save(hkSamples)
         
         print("✅ Dummy data sent out")
+        dump(hkSamples)
+    }
+    
+    private func createDateInterval(from date: Date, to daysBack: Int) -> DateInterval {
+        let calendar = Calendar.current
+        let startOfEndDate = calendar.startOfDay(for: date)
+        let endDate = calendar.date(byAdding: .day, value: 1, to: startOfEndDate) ?? .now
+        let startDate = calendar.date(byAdding: .day, value: -daysBack, to: endDate) ?? .now
+        
+        return .init(start: startDate, end: endDate)
     }
 }
