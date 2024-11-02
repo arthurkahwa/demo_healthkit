@@ -16,7 +16,33 @@ struct DashboardView: View {
     @State private var isShowingAlert = false
     @State private var fetchError: StepTrackerError = .noData
     
-    var isSteps: Bool { selectedStat == .steps }
+    fileprivate func fetchHealthData() {
+        Task {
+            do {
+                async let steps = hkManager.fetchStepCount()
+                async let weightsForLineChart = hkManager.fetchWeightData(daysBack: 28)
+                async let weightsForDiffBarChart = hkManager.fetchWeightData(daysBack: 29)
+                
+                hkManager.stepData = try await steps
+                hkManager.weightData = try await weightsForLineChart
+                hkManager.weightDiffData = try await weightsForDiffBarChart
+                
+            }
+            catch StepTrackerError.authNotDetermined {
+                isShowingPermissionPrimingSheet = true
+            }
+            catch StepTrackerError.noData {
+                fetchError = .noData
+                
+                isShowingAlert = true
+            }
+            catch {
+                fetchError = .unableToCompleteRequest
+                
+                isShowingAlert = true
+            }
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -31,45 +57,23 @@ struct DashboardView: View {
                     
                     switch selectedStat {
                     case .steps:
-                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                        StepBarChart(chartData: ChartHelper.convert(data: hkManager.stepData))
+                        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: hkManager.stepData))
                         
                     case .weight:
-                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
-                        WeightDiffBarChart(chartData: ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData))
+                        WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
+                        WeightDiffBarChart(chartData: ChartHelper.averageDailyWeightDifferences(for: hkManager.weightDiffData))
                     }
                 }
             }
             .padding()
-            .task {
-                do {
-                    try await hkManager.fetchStepCount()
-                    try await hkManager.fetchWeightData()
-                    try await hkManager.fetchWeightDataForDifferencials()
-                    
-//                    ChartMath.averageDailyWeightDifferences(for: hkManager.weightDiffData)
-//                    await hkManager.addSimulatorData()
-                }
-                catch StepTrackerError.authNotDetermined {
-                    isShowingPermissionPrimingSheet = true
-                }
-                catch StepTrackerError.noData {
-                    fetchError = .noData
-                    
-                    isShowingAlert = true
-                }
-                catch {
-                    fetchError = .unableToCompleteRequest
-
-                    isShowingAlert = true
-                }
-            }
+            .task { fetchHealthData() }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in
                 HealthDetailListView(isShowingPermissionPriming: $isShowingPermissionPrimingSheet, metric: metric)
             }
-            .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-                // ToDo fetch health data
+            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+                fetchHealthData()
             }, content: {
                 HealthKitPermissionPrimingView()
             })
@@ -78,9 +82,8 @@ struct DashboardView: View {
             } message: { fetchError in
                 Text(fetchError.failureReason)
             }
-
         }
-        .tint( isSteps ? .pink : .indigo)
+        .tint( selectedStat == .steps ? .pink : .indigo)
     }
 }
 

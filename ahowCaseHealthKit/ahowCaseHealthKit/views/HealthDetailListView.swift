@@ -26,13 +26,13 @@ struct HealthDetailListView: View {
     
     var body: some View {
         List(listData.reversed()) { data in
-            HStack {
-                Text(data.date, format: .dateTime.day().month().year())
-                
-                Spacer()
-                
+            LabeledContent {
                 Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+            } label: {
+                Text(data.date, format: .dateTime.day().month().year())
+                    .accessibilityLabel(data.date.accessibilityDate)
             }
+            .accessibilityElement(children: .combine)
         }
         .navigationTitle(metric.title)
         .sheet(isPresented: $isShowingAddData) {
@@ -50,11 +50,7 @@ struct HealthDetailListView: View {
             Form {
                 DatePicker("Date", selection: $addDataDate, displayedComponents: .date)
                 
-                HStack {
-                    Text(metric.title)
-                    
-                    Spacer()
-                    
+                LabeledContent(metric.title) {
                     TextField("Vallue", text: $valueToAdd)
                         .multilineTextAlignment(.trailing)
                         .frame(width: 160)
@@ -64,7 +60,7 @@ struct HealthDetailListView: View {
             .navigationTitle(metric.title)
             .alert(isPresented: $isShowingAlert, error: writeError, actions: { writeError in
                 switch writeError {
-                case .authNotDetermined, 
+                case .authNotDetermined,
                         .noData,
                         .unableToCompleteRequest,
                         .invalidValue :
@@ -82,60 +78,7 @@ struct HealthDetailListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
-                        
-                        guard let value = Double(valueToAdd)
-                        else {
-                            writeError = .invalidValue
-                            isShowingAlert = true
-                            
-                            return
-                        }
-                        
-                        Task {
-                            if metric == .steps {
-                                do {
-                                    try await hkManager.addStepData(for: addDataDate,
-                                                                    value: value)
-                                    
-                                    try await hkManager.fetchStepCount()
-                                }
-                                catch StepTrackerError.authNotDetermined {
-                                    writeError = .authNotDetermined
-                                    isShowingPermissionPriming = true
-                                }
-                                catch StepTrackerError.sharingDenied(let quantityType) {
-                                    writeError = .sharingDenied(quantityType: quantityType)
-                                    isShowingAlert = true
-                                }
-                                catch {
-                                    writeError = .unableToCompleteRequest
-                                    isShowingAlert = true
-                                }
-                            }
-                            else {
-                                do {
-                                    try await hkManager.addWeightData(for: addDataDate,
-                                                                      value: value)
-                                    
-                                    try await hkManager.fetchWeightData()
-                                    try await hkManager.fetchWeightDataForDifferencials()
-                                }
-                                catch StepTrackerError.authNotDetermined {
-                                    writeError = .authNotDetermined
-                                    isShowingPermissionPriming = true
-                                }
-                                catch StepTrackerError.sharingDenied(let quantityType) {
-                                    writeError = .sharingDenied(quantityType: quantityType)
-                                    isShowingAlert = true
-                                }
-                                catch {
-                                    writeError = .unableToCompleteRequest
-                                    isShowingAlert = true
-                                }
-                            }
-                            
-                            isShowingAddData = false
-                        }
+                        addDataToHealhKit()
                     }
                 }
                 
@@ -145,6 +88,51 @@ struct HealthDetailListView: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func addDataToHealhKit() {
+        guard let value = Double(valueToAdd)
+        else {
+            writeError = .invalidValue
+            isShowingAlert = true
+            
+            return
+        }
+        
+        Task {
+            do {
+                if metric == .steps {
+                    try await hkManager.addStepData(for: addDataDate,
+                                                    value: value)
+                    
+                    hkManager.stepData = try await hkManager.fetchStepCount()
+                }
+                else {
+                    try await hkManager.addWeightData(for: addDataDate,
+                                                      value: value)
+                    
+                    async let weightsForLineChart = hkManager.fetchWeightData(daysBack: 28)
+                    async let weightsForDiffBarChart = hkManager.fetchWeightData(daysBack: 29)
+                    
+                    hkManager.weightData = try await weightsForLineChart
+                    hkManager.weightDiffData = try await weightsForDiffBarChart
+                }
+            }
+            catch StepTrackerError.authNotDetermined {
+                writeError = .authNotDetermined
+                isShowingPermissionPriming = true
+            }
+            catch StepTrackerError.sharingDenied(let quantityType) {
+                writeError = .sharingDenied(quantityType: quantityType)
+                isShowingAlert = true
+            }
+            catch {
+                writeError = .unableToCompleteRequest
+                isShowingAlert = true
+            }
+            
+            isShowingAddData = false
         }
     }
 }
